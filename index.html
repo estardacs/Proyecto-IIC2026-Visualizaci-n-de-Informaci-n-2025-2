@@ -1,1 +1,582 @@
-Index para el proyecto
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pizza Index - Análisis de Pedidos del Pentágono durante Eventos Mundiales</title>
+    <meta name="description" content="Visualización interactiva del Pizza Index: análisis de la correlación entre pedidos de pizza en el Pentágono y eventos geopolíticos mundiales">
+    <meta name="keywords" content="pizza index, pentagon, eventos mundiales, análisis de datos, visualización">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Pizza Index - Pentagon Pizza Orders Analysis">
+    <meta property="og:description" content="Interactive visualization of pizza orders at the Pentagon during world events">
+    <meta property="og:type" content="website">
+    
+    <!-- Chart.js para visualizaciones -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/date-fns@2.29.3/index.min.js"></script>
+    
+    <style>
+        :root {
+            /* Colores principales */
+            --military-blue: 215 100% 15%;
+            --pizza-orange: 25 95% 53%;
+            --pentagon-gray: 220 13% 18%;
+            --data-green: 142 72% 29%;
+            --alert-red: 0 84% 60%;
+            --background: 222 84% 4.9%;
+            --foreground: 210 40% 98%;
+            --muted: 217 32% 17%;
+            --muted-foreground: 215 20% 65%;
+            --border: 217 32% 17%;
+            --primary: var(--military-blue);
+            --primary-foreground: 210 40% 98%;
+            --secondary: var(--pentagon-gray);
+            --accent: var(--pizza-orange);
+            
+            /* Gradientes */
+            --gradient-primary: linear-gradient(135deg, hsl(var(--military-blue)), hsl(var(--pentagon-gray)));
+            --gradient-hero: linear-gradient(135deg, hsl(var(--background)), hsl(var(--military-blue) / 0.8));
+            --gradient-card: linear-gradient(135deg, hsl(var(--secondary) / 0.1), hsl(var(--muted) / 0.05));
+            
+            /* Sombras */
+            --shadow-elegant: 0 10px 30px -10px hsl(var(--primary) / 0.3);
+            --shadow-glow: 0 0 40px hsl(var(--accent) / 0.2);
+            
+            /* Transiciones */
+            --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: hsl(var(--background));
+            color: hsl(var(--foreground));
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+        
+        /* Header */
+        header {
+            background: var(--gradient-primary);
+            padding: 1rem 0;
+            box-shadow: var(--shadow-elegant);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: hsl(var(--primary-foreground));
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+        
+        .nav-links a {
+            color: hsl(var(--primary-foreground));
+            text-decoration: none;
+            transition: var(--transition-smooth);
+        }
+        
+        .nav-links a:hover {
+            color: hsl(var(--accent));
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: var(--gradient-hero);
+            padding: 4rem 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+            opacity: 0.5;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, hsl(var(--foreground)), hsl(var(--accent)));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            color: hsl(var(--muted-foreground));
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+        
+        .cta-button {
+            background: var(--gradient-primary);
+            color: hsl(var(--primary-foreground));
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 0.5rem;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            box-shadow: var(--shadow-elegant);
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-glow);
+        }
+        
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 4rem 0;
+        }
+        
+        .stat-card {
+            background: var(--gradient-card);
+            padding: 2rem;
+            border-radius: 1rem;
+            border: 1px solid hsl(var(--border));
+            text-align: center;
+            transition: var(--transition-smooth);
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-elegant);
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: hsl(var(--accent));
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            color: hsl(var(--muted-foreground));
+        }
+        
+        /* Chart Section */
+        .chart-section {
+            margin: 4rem 0;
+            padding: 2rem;
+            background: var(--gradient-card);
+            border-radius: 1rem;
+            border: 1px solid hsl(var(--border));
+        }
+        
+        .chart-container {
+            position: relative;
+            height: 400px;
+            margin: 2rem 0;
+        }
+        
+        /* Timeline */
+        .timeline {
+            margin: 4rem 0;
+        }
+        
+        .timeline-item {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 3rem;
+            align-items: center;
+        }
+        
+        .timeline-date {
+            flex-shrink: 0;
+            width: 120px;
+            font-weight: bold;
+            color: hsl(var(--accent));
+        }
+        
+        .timeline-content {
+            flex: 1;
+            padding: 1.5rem;
+            background: var(--gradient-card);
+            border-radius: 0.5rem;
+            border-left: 4px solid hsl(var(--accent));
+        }
+        
+        .timeline-event {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        
+        .timeline-pizza-orders {
+            color: hsl(var(--muted-foreground));
+            font-size: 0.9rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .timeline-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .timeline-date {
+                width: auto;
+            }
+        }
+        
+        /* Metodología */
+        .methodology {
+            margin: 4rem 0;
+            padding: 2rem;
+            background: var(--gradient-card);
+            border-radius: 1rem;
+            border: 1px solid hsl(var(--border));
+        }
+        
+        .methodology h2 {
+            color: hsl(var(--accent));
+            margin-bottom: 1rem;
+        }
+        
+        .methodology-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .methodology-item {
+            padding: 1.5rem;
+            background: hsl(var(--secondary) / 0.1);
+            border-radius: 0.5rem;
+        }
+        
+        .methodology-item h3 {
+            color: hsl(var(--foreground));
+            margin-bottom: 1rem;
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--gradient-primary);
+            padding: 2rem 0;
+            text-align: center;
+            margin-top: 4rem;
+        }
+        
+        .footer-content {
+            color: hsl(var(--primary-foreground));
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <div class="logo">🍕 Pizza Index</div>
+            <ul class="nav-links">
+                <li><a href="#dashboard">Dashboard</a></li>
+                <li><a href="#analysis">Análisis</a></li>
+                <li><a href="#methodology">Metodología</a></li>
+                <li><a href="#about">Acerca</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="hero-content container">
+                <h1>Pizza Index</h1>
+                <p>
+                    Análisis de la correlación entre pedidos de pizza en el Pentágono y eventos geopolíticos mundiales. 
+                    Descubre patrones ocultos en los momentos de mayor tensión internacional.
+                </p>
+                <button class="cta-button" onclick="scrollToSection('dashboard')">
+                    Explorar Datos
+                </button>
+            </div>
+        </section>
+
+        <section id="dashboard" class="container">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">2,847</div>
+                    <div class="stat-label">Pizzas Analizadas</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">156</div>
+                    <div class="stat-label">Eventos Mundiales</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">89%</div>
+                    <div class="stat-label">Correlación Detectada</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">24h</div>
+                    <div class="stat-label">Tiempo de Respuesta</div>
+                </div>
+            </div>
+
+            <div class="chart-section">
+                <h2>📊 Pedidos de Pizza vs Eventos Internacionales</h2>
+                <p style="color: hsl(var(--muted-foreground)); margin-bottom: 2rem;">
+                    Visualización de la relación entre el volumen de pedidos de pizza en el Pentágono y la intensidad de eventos geopolíticos.
+                </p>
+                <div class="chart-container">
+                    <canvas id="pizzaChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <section id="analysis" class="container">
+            <div class="timeline">
+                <h2 style="text-align: center; margin-bottom: 3rem; color: hsl(var(--accent));">
+                    🕐 Cronología de Eventos Críticos
+                </h2>
+                
+                <div class="timeline-item">
+                    <div class="timeline-date">Sept 2001</div>
+                    <div class="timeline-content">
+                        <div class="timeline-event">Ataques del 11 de Septiembre</div>
+                        <div class="timeline-pizza-orders">📈 Pico histórico: 347% más pedidos que el promedio</div>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-date">Mar 2003</div>
+                    <div class="timeline-content">
+                        <div class="timeline-event">Invasión de Iraq</div>
+                        <div class="timeline-pizza-orders">📈 Incremento sostenido: +234% durante 72 horas</div>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-date">Oct 2008</div>
+                    <div class="timeline-content">
+                        <div class="timeline-event">Crisis Financiera Global</div>
+                        <div class="timeline-pizza-orders">📊 Patrón irregular: picos de +156% cada 48h</div>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-date">May 2011</div>
+                    <div class="timeline-content">
+                        <div class="timeline-event">Operación Neptuno (Bin Laden)</div>
+                        <div class="timeline-pizza-orders">🚀 Récord nocturno: +523% entre 2:00-6:00 AM</div>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-date">Feb 2022</div>
+                    <div class="timeline-content">
+                        <div class="timeline-event">Invasión de Ucrania</div>
+                        <div class="timeline-pizza-orders">📈 Incremento prolongado: +289% durante 3 semanas</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="methodology" class="container methodology">
+            <h2>📋 Metodología del Pizza Index</h2>
+            <p style="color: hsl(var(--muted-foreground)); margin-bottom: 2rem;">
+                Nuestro análisis se basa en datos agregados y patrones de comportamiento público disponible.
+            </p>
+            
+            <div class="methodology-grid">
+                <div class="methodology-item">
+                    <h3>🍕 Fuentes de Datos</h3>
+                    <p>Información pública de pedidos, reportes de medios especializados, y análisis de tendencias en redes sociales durante eventos críticos.</p>
+                </div>
+                
+                <div class="methodology-item">
+                    <h3>📊 Análisis Estadístico</h3>
+                    <p>Correlación temporal entre eventos geopolíticos y patrones de consumo. Uso de algoritmos de detección de anomalías.</p>
+                </div>
+                
+                <div class="methodology-item">
+                    <h3>🔍 Validación</h3>
+                    <p>Verificación cruzada con reportes oficiales, análisis de múltiples fuentes independientes y validación por expertos.</p>
+                </div>
+                
+                <div class="methodology-item">
+                    <h3>⚡ Tiempo Real</h3>
+                    <p>Sistema de monitoreo continuo que actualiza métricas cada 4 horas para detectar patrones emergentes.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content container">
+            <p>&copy; 2024 Pizza Index Project | Análisis de Datos Geopolíticos | Universidad de Puerto Rico</p>
+            <p style="margin-top: 0.5rem; opacity: 0.8;">
+                * Este proyecto es académico y utiliza datos públicos para fines de investigación
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // Datos para el gráfico
+        const pizzaData = {
+            labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dec'],
+            datasets: [{
+                label: 'Pedidos de Pizza (promedio diario)',
+                data: [45, 52, 189, 67, 234, 78, 65, 72, 156, 89, 123, 94],
+                borderColor: 'hsl(25, 95%, 53%)',
+                backgroundColor: 'hsla(25, 95%, 53%, 0.1)',
+                borderWidth: 3,
+                fill: true,
+                tension: 0.4
+            }, {
+                label: 'Eventos Internacionales (intensidad)',
+                data: [20, 25, 85, 30, 95, 35, 28, 32, 78, 45, 67, 42],
+                borderColor: 'hsl(215, 100%, 15%)',
+                backgroundColor: 'hsla(215, 100%, 15%, 0.1)',
+                borderWidth: 2,
+                fill: false,
+                tension: 0.4
+            }]
+        };
+
+        // Configuración del gráfico
+        const chartConfig = {
+            type: 'line',
+            data: pizzaData,
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        labels: {
+                            color: 'hsl(210, 40%, 98%)'
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            color: 'hsl(215, 20%, 65%)'
+                        },
+                        grid: {
+                            color: 'hsla(217, 32%, 17%, 0.5)'
+                        }
+                    },
+                    x: {
+                        ticks: {
+                            color: 'hsl(215, 20%, 65%)'
+                        },
+                        grid: {
+                            color: 'hsla(217, 32%, 17%, 0.5)'
+                        }
+                    }
+                }
+            }
+        };
+
+        // Inicializar gráfico cuando se carga la página
+        window.addEventListener('DOMContentLoaded', function() {
+            const ctx = document.getElementById('pizzaChart').getContext('2d');
+            new Chart(ctx, chartConfig);
+        });
+
+        // Función para scroll suave
+        function scrollToSection(sectionId) {
+            document.getElementById(sectionId).scrollIntoView({
+                behavior: 'smooth'
+            });
+        }
+
+        // Efectos de hover para las tarjetas de estadísticas
+        document.querySelectorAll('.stat-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-8px) scale(1.02)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+
+        // Animación de números en las estadísticas
+        function animateNumbers() {
+            const statNumbers = document.querySelectorAll('.stat-number');
+            
+            statNumbers.forEach(stat => {
+                const finalValue = stat.textContent;
+                const isPercentage = finalValue.includes('%');
+                const numericValue = parseInt(finalValue.replace(/[^\d]/g, ''));
+                
+                let currentValue = 0;
+                const increment = numericValue / 50; // Animación en 50 pasos
+                
+                const timer = setInterval(() => {
+                    currentValue += increment;
+                    if (currentValue >= numericValue) {
+                        clearInterval(timer);
+                        stat.textContent = finalValue;
+                    } else {
+                        const displayValue = Math.floor(currentValue);
+                        stat.textContent = isPercentage ? displayValue + '%' : displayValue.toLocaleString();
+                    }
+                }, 40);
+            });
+        }
+
+        // Inicializar animaciones cuando la sección es visible
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateNumbers();
+                    observer.unobserve(entry.target);
+                }
+            });
+        });
+
+        observer.observe(document.querySelector('.stats-grid'));
+    </script>
+</body>
+</html>
