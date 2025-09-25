@@ -53,7 +53,7 @@
             margin-bottom: 0.5rem;
             background: linear-gradient(135deg, var(--foreground), var(--pizza-orange));
             -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            -webkit-text-fill-color: ;
             background-clip: text;
             font-weight: bold;
         }
@@ -82,7 +82,7 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>Pizza Index</h1>
+            <h1>Pizza Index 🍕</h1>
             <p>Análisis de la correlación entre pedidos de pizza en el Pentágono y eventos geopolíticos mundiales</p>
         </div>
 
@@ -118,126 +118,10 @@
                 95, 95, 83, 83, 83, 75, 75, 75, 91, 91, 95, 95, 97, 97, 84, 84, 84, 76, 76, 76, 92, 92, 97, 97,
                 98, 98, 85, 85, 85, 77, 77, 77, 94, 94, 98, 98
             ];
-
-            const crisisEvents = [{
-                date: '1983-10',
-                crisis: 100,
-                event: 'Invasión Granada'
-            }, {
-                date: '1987-10',
-                crisis: 75,
-                event: 'Lunes Negro'
-            },
-            {
-                date: '1989-12',
-                crisis: 125,
-                event: 'Invasión Panamá'
-            }, {
-                date: '1990-08',
-                crisis: 116,
-                event: 'Guerra del Golfo'
-            },
-            {
-                date: '1991-08',
-                crisis: 157,
-                event: 'Golpe URSS'
-            }, {
-                date: '1993-10',
-                crisis: 63,
-                event: 'Mogadiscio'
-            },
-            {
-                date: '1994-09',
-                crisis: 80,
-                event: 'Invasión Haití'
-            }, {
-                date: '1995-11',
-                crisis: 110,
-                event: 'Lewinsky'
-            },
-            {
-                date: '1998-08',
-                crisis: 200,
-                event: 'Bombardeos Sudán/Afganistán'
-            }, {
-                date: '1998-12',
-                crisis: 175,
-                event: 'Desert Fox'
-            },
-            {
-                date: '1999-03',
-                crisis: 150,
-                event: 'Yugoslavia/Kosovo'
-            }, {
-                date: '2001-09',
-                crisis: 220,
-                event: '11 de Septiembre'
-            },
-            {
-                date: '2001-10',
-                crisis: 125,
-                event: 'Invasión Afganistán'
-            }, {
-                date: '2003-03',
-                crisis: 135,
-                event: 'Invasión Iraq'
-            },
-            {
-                date: '2011-03',
-                crisis: 170,
-                event: 'Intervención Libia'
-            }, {
-                date: '2011-05',
-                crisis: 115,
-                event: 'Raid Bin Laden'
-            },
-            {
-                date: '2017-04',
-                crisis: 140,
-                event: 'Bombardeo Siria'
-            }, {
-                date: '2018-04',
-                crisis: 160,
-                event: 'Bombardeos Siria Multi'
-            },
-            {
-                date: '2019-10',
-                crisis: 95,
-                event: 'Raid ISIS Baghdadi'
-            }, {
-                date: '2020-01',
-                crisis: 135,
-                event: 'Asesinato Soleimani'
-            },
-            {
-                date: '2021-08',
-                crisis: 115,
-                event: 'Atentado Kabul'
-            }, {
-                date: '2022-02',
-                crisis: 130,
-                event: 'Invasión Ucrania'
-            },
-            {
-                date: '2024-04',
-                crisis: 170,
-                event: 'Ataque Israel-Irán'
-            }, {
-                date: '2025-06',
-                crisis: 180,
-                event: 'Bombardeos Israel-Irán'
-            },
-            {
-                date: '2025-08',
-                crisis: 170,
-                event: 'Rumores #TrumpIsDead'
-            }
-            ];
-
+            const crisisEvents = [{ date: '1983-10-25', crisis: 100, event: 'Invasión Granada' }, { date: '1987-10-19', crisis: 75, event: 'Lunes Negro' }, { date: '1989-12-20', crisis: 125, event: 'Invasión Panamá' }, { date: '1990-08-01', crisis: 116, event: 'Guerra del Golfo' }, { date: '1991-08-21', crisis: 157, event: 'Golpe URSS' }, { date: '1993-10-02', crisis: 63, event: 'Mogadiscio' }, { date: '1994-09-18', crisis: 80, event: 'Invasión Haití' }, { date: '1995-11-17', crisis: 110, event: 'Lewinsky' }, { date: '1998-08-20', crisis: 200, event: 'Bombardeos Sudán/Afganistán' }, { date: '1998-12-16', crisis: 175, event: 'Desert Fox' }, { date: '1999-03-23', crisis: 150, event: 'Yugoslavia/Kosovo' }, { date: '2001-09-11', crisis: 220, event: '11 de Septiembre' }, { date: '2001-10-07', crisis: 125, event: 'Invasión Afganistán' }, { date: '2003-03-19', crisis: 135, event: 'Invasión Iraq' }, { date: '2011-03-19', crisis: 170, event: 'Intervención Libia' }, { date: '2011-05-01', crisis: 115, event: 'Raid Bin Laden' }, { date: '2017-04-06', crisis: 140, event: 'Bombardeo Siria' }, { date: '2018-04-13', crisis: 160, event: 'Bombardeos Siria Multi' }, { date: '2019-10-26', crisis: 95, event: 'Raid ISIS Baghdadi' }, { date: '2020-01-02', crisis: 135, event: 'Asesinato Soleimani' }, { date: '2021-08-26', crisis: 115, event: 'Atentado Kabul' }, { date: '2022-02-23', crisis: 130, event: 'Invasión Ucrania' }, { date: '2024-04-13', crisis: 170, event: 'Ataque Israel-Irán' }, { date: '2025-06-12', crisis: 180, event: 'Bombardeos Israel-Irán' }, { date: '2025-08-29', crisis: 170, event: 'Rumores #TrumpIsDead' }];
             const monthlyData = [];
             let dataIndex = 0;
-            const crisisMap = new Map(crisisEvents.map(e => [e.date, e]));
-
+            const crisisMap = new Map(crisisEvents.map(e => [e.date.substring(0, 7), e]));
             for (let year = 1983; year <= 2025; year++) {
                 for (let month = 1; month <= 12; month++) {
                     const dateStr = `${year}-${month.toString().padStart(2, '0')}`;
@@ -248,34 +132,24 @@
                         const calculatedExcess = event.crisis - baseline;
                         excess = calculatedExcess > 0 ? calculatedExcess : 0;
                     }
-                    monthlyData.push({
-                        date: dateStr,
-                        baseline: baseline,
-                        excess: excess,
-                        event: event ? event.event : null,
-                        crisis: event ? event.crisis : null
-                    });
+                    monthlyData.push({ date: dateStr, baseline: baseline, excess: excess, event: event ? event.event : null, crisis: event ? event.crisis : null, fullDate: event ? event.date : null });
                     dataIndex++;
                 }
             }
-            return {
-                monthlyData
-            };
+            return { monthlyData };
         }
 
         // --- CANVAS DRAWING ---
         function setupDrawingCanvas() {
             const canvas = document.getElementById('pizzaChart');
             const ctx = canvas.getContext('2d');
-            const {
-                monthlyData
-            } = getChartData();
+            const { monthlyData } = getChartData();
 
             const config = {
                 margin: {
-                    top: 100, // Aumentado para el eje X en la parte superior
-                    right: 250,
-                    bottom: -10, // Reducido porque el eje X se movió
+                    top: 100,
+                    right: 150,
+                    bottom: 40, // <-- MODIFICADO
                     left: 80
                 },
                 colors: {
@@ -301,57 +175,46 @@
                     requestAnimationFrame(draw);
                     return;
                 }
-
                 const dpr = window.devicePixelRatio || 1;
                 canvas.width = rect.width * dpr;
                 canvas.height = 2800 * dpr;
                 ctx.scale(dpr, dpr);
                 canvas.style.height = '2800px';
-
                 const chartWidth = rect.width - config.margin.left - config.margin.right;
                 const chartHeight = (canvas.height / dpr) - config.margin.top - config.margin.bottom;
-
                 ctx.fillStyle = config.colors.background;
                 ctx.fillRect(0, 0, canvas.width, canvas.height);
-                
                 drawLegend(chartWidth);
                 drawAxesAndGrid(chartWidth, chartHeight);
-                drawBarsAndEvents(chartWidth);
+                drawAreaAndEvents(chartWidth);
             }
 
             function drawLegend(chartWidth) {
                 ctx.save();
-                const legendY = 15; // Posición Y fija en la parte superior
+                const legendY = 15;
                 const boxSize = 12;
                 const textOffset = 8;
                 const legendGap = 40;
-
                 ctx.font = 'bold 12px "Segoe UI"';
                 ctx.textBaseline = 'middle';
-
-                const text1 = 'Promedio Diario Normal';
+                const text1 = 'Promedio Diario Durante el Mes';
                 const text2 = 'Cantidad Pedida en Día de Crisis';
                 const text1Width = ctx.measureText(text1).width;
                 const text2Width = ctx.measureText(text2).width;
-
                 const legend1Width = boxSize + textOffset + text1Width;
-                const legend2Width = boxSize + textOffset + text2Width - 250;
+                const legend2Width = boxSize + textOffset + text2Width - 160;
                 const totalLegendWidth = legend1Width + legendGap + legend2Width;
-
                 let legendXStart = config.margin.left + (chartWidth / 2) - (totalLegendWidth / 2);
-
                 ctx.textAlign = 'left';
                 ctx.fillStyle = config.colors.baseline;
                 ctx.fillRect(legendXStart, legendY - boxSize / 2, boxSize, boxSize);
                 ctx.fillStyle = config.colors.text;
                 ctx.fillText(text1, legendXStart + boxSize + textOffset, legendY);
-
                 const orangeLegendX = legendXStart + legend1Width + legendGap;
                 ctx.fillStyle = config.colors.excess;
                 ctx.fillRect(orangeLegendX, legendY - boxSize / 2, boxSize, boxSize);
                 ctx.fillStyle = config.colors.text;
                 ctx.fillText(text2, orangeLegendX + boxSize + textOffset, legendY);
-
                 ctx.restore();
             }
 
@@ -373,23 +236,28 @@
 
                 // --- EJE X (Superior) y Rejilla Vertical ---
                 ctx.textAlign = 'center';
-                
-                // Título del eje X
                 ctx.fillStyle = config.colors.axis;
                 ctx.font = 'bold 14px "Segoe UI"';
                 ctx.textBaseline = 'bottom';
-                ctx.fillText('Promedio Diario de Pizzas Pedidas', 200 + chartWidth / 2, config.margin.top - 40);
+                ctx.fillText('Promedio Diario de Pizzas Pedidas', 140 + chartWidth / 2, config.margin.top - 40);
 
                 // Marcas y etiquetas del eje X
                 ctx.font = config.font;
                 ctx.fillStyle = config.colors.text;
-                const tickCount = 5;
+                const tickCount = 25;
                 for (let i = 0; i <= tickCount; i++) {
                     const value = (config.maxPizza / tickCount) * i;
                     const x = config.margin.left + (value / config.maxPizza) * chartWidth;
-                    
+
+                    // Eje X Superior
+                    ctx.textBaseline = 'bottom';
                     ctx.fillText(value, x, config.margin.top - 20);
-                    
+
+                    // ✅ Eje X Inferior (AÑADIDO)
+                    ctx.textBaseline = 'top';
+                    ctx.fillText(value, x, config.margin.top + chartHeight + 20);
+
+                    // Rejilla Vertical
                     ctx.beginPath();
                     ctx.moveTo(x, config.margin.top);
                     ctx.lineTo(x, config.margin.top + chartHeight);
@@ -407,59 +275,74 @@
                 ctx.textAlign = 'center';
                 ctx.fillText('Línea de Tiempo', 0, 5);
                 ctx.restore();
-
                 ctx.restore();
             }
 
-            function drawBarsAndEvents(chartWidth) {
-                let lastLabelBottomEdge = -Infinity;
-
+            function drawAreaAndEvents(chartWidth) {
+                const points = monthlyData.map((d, i) => ({
+                    x: config.margin.left + (d.baseline / config.maxPizza) * chartWidth,
+                    y: config.margin.top + i * (config.barHeight + config.barGap) + (config.barHeight / 2),
+                    totalX: config.margin.left + ((d.baseline + d.excess) / config.maxPizza) * chartWidth
+                }));
                 monthlyData.forEach((d, i) => {
-                    const y = config.margin.top + i * (config.barHeight + config.barGap);
-                    const baselineWidth = (d.baseline / config.maxPizza) * chartWidth;
-                    const excessWidth = (d.excess / config.maxPizza) * chartWidth;
-
-                    ctx.fillStyle = config.colors.baseline;
-                    ctx.fillRect(config.margin.left, y, baselineWidth, config.barHeight);
-
                     if (d.excess > 0) {
-                        ctx.fillStyle = config.colors.excess;
-                        ctx.strokeStyle = config.colors.crisisStroke;
-                        ctx.lineWidth = 1;
-                        ctx.fillRect(config.margin.left + baselineWidth, y, excessWidth, config.barHeight);
-                        ctx.strokeRect(config.margin.left, y, baselineWidth + excessWidth, config.barHeight);
-
+                        const point = points[i];
+                        ctx.beginPath();
+                        ctx.strokeStyle = config.colors.excess;
+                        ctx.lineWidth = config.barHeight;
+                        ctx.lineCap = 'round';
+                        ctx.moveTo(83, point.y);
+                        ctx.lineTo(point.totalX, point.y);
+                        ctx.stroke();
+                    }
+                });
+                const path = new Path2D();
+                const lastPointY = config.margin.top + (monthlyData.length - 1) * (config.barHeight + config.barGap) + config.barHeight;
+                const lastDataPoint = points[points.length - 1];
+                path.moveTo(config.margin.left, lastPointY);
+                path.lineTo(config.margin.left, points[0].y);
+                path.lineTo(points[0].x, points[0].y);
+                for (let i = 0; i < points.length - 2; i++) {
+                    const xc = (points[i].x + points[i + 1].x) / 2;
+                    const yc = (points[i].y + points[i + 1].y) / 2;
+                    path.quadraticCurveTo(points[i].x, points[i].y, xc, yc);
+                }
+                path.quadraticCurveTo(points[points.length - 2].x, points[points.length - 2].y, lastDataPoint.x, lastDataPoint.y);
+                path.lineTo(lastDataPoint.x, lastPointY);
+                path.lineTo(config.margin.left, lastPointY);
+                path.closePath();
+                ctx.fillStyle = config.colors.baseline + 'CC';
+                ctx.fill(path);
+                let lastLabelBottomEdge = -Infinity;
+                monthlyData.forEach((d, i) => {
+                    if (d.excess > 0) {
+                        const point = points[i];
+                        const lineY = point.y;
+                        const endX = point.totalX;
                         ctx.font = config.eventFont;
                         ctx.fillStyle = config.colors.eventText;
                         ctx.textAlign = 'left';
                         ctx.textBaseline = 'middle';
-
-                        const textX = config.margin.left + baselineWidth + excessWidth + 15;
-                        const barCenterY = y + config.barHeight / 2;
+                        const textX = endX + 15;
                         const textHeight = 15;
-
-                        let labelY = Math.max(barCenterY, lastLabelBottomEdge + textHeight);
-
+                        let labelY = Math.max(lineY, lastLabelBottomEdge + textHeight);
                         ctx.beginPath();
-                        ctx.moveTo(config.margin.left + baselineWidth + excessWidth + 2, barCenterY);
+                        ctx.moveTo(endX, lineY);
                         ctx.lineTo(textX - 5, labelY);
                         ctx.strokeStyle = config.colors.excess;
                         ctx.lineWidth = 0.8;
+                        ctx.lineCap = 'butt';
                         ctx.stroke();
-
-                        ctx.fillText(`(${d.date}) ${d.event} | Pizzas: ${d.crisis}`, textX, labelY);
+                        ctx.fillText(`${d.event} 🍕 Pizzas: ${d.crisis} (${d.fullDate})`, textX, labelY);
                         lastLabelBottomEdge = labelY + textHeight / 2;
                     }
                 });
             }
-
             draw();
             window.addEventListener('resize', draw);
         }
-
         window.addEventListener('DOMContentLoaded', setupDrawingCanvas);
     </script>
 </body>
 
 </html>
-
