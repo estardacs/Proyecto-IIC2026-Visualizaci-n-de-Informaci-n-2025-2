@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pizza Index - IIC2026 Visualización de Información</title>
-    <style>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🍕</text></svg>"> <style>
         :root {
             --military-blue: #1e3a8a;
             --pizza-orange: #f97316;
@@ -149,7 +149,7 @@
                 margin: {
                     top: 100,
                     right: 150,
-                    bottom: 40, // <-- MODIFICADO
+                    bottom: 40,
                     left: 80
                 },
                 colors: {
@@ -223,8 +223,6 @@
                 ctx.font = config.font;
                 ctx.textAlign = 'center';
                 ctx.fillStyle = config.colors.text;
-
-                // --- EJE Y (Años a la izquierda) ---
                 ctx.textAlign = 'right';
                 ctx.textBaseline = 'middle';
                 monthlyData.forEach((d, i) => {
@@ -233,31 +231,21 @@
                         ctx.fillText(d.date.substring(0, 4), config.margin.left - 15, y);
                     }
                 });
-
-                // --- EJE X (Superior) y Rejilla Vertical ---
                 ctx.textAlign = 'center';
                 ctx.fillStyle = config.colors.axis;
                 ctx.font = 'bold 14px "Segoe UI"';
                 ctx.textBaseline = 'bottom';
                 ctx.fillText('Promedio Diario de Pizzas Pedidas', 140 + chartWidth / 2, config.margin.top - 40);
-
-                // Marcas y etiquetas del eje X
                 ctx.font = config.font;
                 ctx.fillStyle = config.colors.text;
                 const tickCount = 25;
                 for (let i = 0; i <= tickCount; i++) {
                     const value = (config.maxPizza / tickCount) * i;
                     const x = config.margin.left + (value / config.maxPizza) * chartWidth;
-
-                    // Eje X Superior
                     ctx.textBaseline = 'bottom';
                     ctx.fillText(value, x, config.margin.top - 20);
-
-                    // ✅ Eje X Inferior (AÑADIDO)
                     ctx.textBaseline = 'top';
                     ctx.fillText(value, x, config.margin.top + chartHeight + 20);
-
-                    // Rejilla Vertical
                     ctx.beginPath();
                     ctx.moveTo(x, config.margin.top);
                     ctx.lineTo(x, config.margin.top + chartHeight);
@@ -265,8 +253,6 @@
                     ctx.lineWidth = 0.5;
                     ctx.stroke();
                 }
-
-                // --- Título del Eje Y (Rotado) ---
                 ctx.fillStyle = config.colors.axis;
                 ctx.font = 'bold 14px "Segoe UI"';
                 ctx.save();
