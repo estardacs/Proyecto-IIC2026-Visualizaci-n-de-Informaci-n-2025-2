@@ -1,582 +1,465 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pizza Index - Análisis de Pedidos del Pentágono durante Eventos Mundiales</title>
-    <meta name="description" content="Visualización interactiva del Pizza Index: análisis de la correlación entre pedidos de pizza en el Pentágono y eventos geopolíticos mundiales">
-    <meta name="keywords" content="pizza index, pentagon, eventos mundiales, análisis de datos, visualización">
-    
-    <!-- Open Graph -->
-    <meta property="og:title" content="Pizza Index - Pentagon Pizza Orders Analysis">
-    <meta property="og:description" content="Interactive visualization of pizza orders at the Pentagon during world events">
-    <meta property="og:type" content="website">
-    
-    <!-- Chart.js para visualizaciones -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/date-fns@2.29.3/index.min.js"></script>
-    
+    <title>Pizza Index - Visualización de Datos</title>
     <style>
         :root {
-            /* Colores principales */
-            --military-blue: 215 100% 15%;
-            --pizza-orange: 25 95% 53%;
-            --pentagon-gray: 220 13% 18%;
-            --data-green: 142 72% 29%;
-            --alert-red: 0 84% 60%;
-            --background: 222 84% 4.9%;
-            --foreground: 210 40% 98%;
-            --muted: 217 32% 17%;
-            --muted-foreground: 215 20% 65%;
-            --border: 217 32% 17%;
-            --primary: var(--military-blue);
-            --primary-foreground: 210 40% 98%;
-            --secondary: var(--pentagon-gray);
-            --accent: var(--pizza-orange);
-            
-            /* Gradientes */
-            --gradient-primary: linear-gradient(135deg, hsl(var(--military-blue)), hsl(var(--pentagon-gray)));
-            --gradient-hero: linear-gradient(135deg, hsl(var(--background)), hsl(var(--military-blue) / 0.8));
-            --gradient-card: linear-gradient(135deg, hsl(var(--secondary) / 0.1), hsl(var(--muted) / 0.05));
-            
-            /* Sombras */
-            --shadow-elegant: 0 10px 30px -10px hsl(var(--primary) / 0.3);
-            --shadow-glow: 0 0 40px hsl(var(--accent) / 0.2);
-            
-            /* Transiciones */
-            --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --military-blue: #1e3a8a;
+            --pizza-orange: #f97316;
+            --pentagon-gray: #374151;
+            --alert-red: #dc2626;
+            --background: #0f172a;
+            --foreground: #f8fafc;
+            --muted: #334155;
+            --muted-foreground: #94a3b8;
+            --border: #334155;
+            --excess-orange: #fb923c;
+            --baseline-blue: #3b82f6;
         }
-        
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: hsl(var(--background));
-            color: hsl(var(--foreground));
+            background: var(--background);
+            color: var(--foreground);
             line-height: 1.6;
             min-height: 100vh;
+            padding: 1rem;
         }
-        
+
         .container {
-            max-width: 1200px;
+            max-width: 1600px;
             margin: 0 auto;
-            padding: 0 1rem;
         }
-        
-        /* Header */
-        header {
-            background: var(--gradient-primary);
-            padding: 1rem 0;
-            box-shadow: var(--shadow-elegant);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-        
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .logo {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: hsl(var(--primary-foreground));
-        }
-        
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-            list-style: none;
-        }
-        
-        .nav-links a {
-            color: hsl(var(--primary-foreground));
-            text-decoration: none;
-            transition: var(--transition-smooth);
-        }
-        
-        .nav-links a:hover {
-            color: hsl(var(--accent));
-        }
-        
-        /* Hero Section */
-        .hero {
-            background: var(--gradient-hero);
-            padding: 4rem 0;
+
+        .header {
             text-align: center;
-            position: relative;
-            overflow: hidden;
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, var(--military-blue), var(--pentagon-gray));
+            border-radius: 1rem;
         }
-        
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
-            opacity: 0.5;
-        }
-        
-        .hero-content {
-            position: relative;
-            z-index: 1;
-        }
-        
-        .hero h1 {
-            font-size: 3.5rem;
-            margin-bottom: 1rem;
-            background: linear-gradient(135deg, hsl(var(--foreground)), hsl(var(--accent)));
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, var(--foreground), var(--pizza-orange));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            font-weight: bold;
         }
-        
-        .hero p {
-            font-size: 1.2rem;
-            color: hsl(var(--muted-foreground));
-            max-width: 600px;
-            margin: 0 auto 2rem;
-        }
-        
-        .cta-button {
-            background: var(--gradient-primary);
-            color: hsl(var(--primary-foreground));
-            padding: 1rem 2rem;
-            border: none;
-            border-radius: 0.5rem;
+
+        .header p {
             font-size: 1.1rem;
-            cursor: pointer;
-            transition: var(--transition-smooth);
-            box-shadow: var(--shadow-elegant);
+            color: var(--muted-foreground);
         }
-        
-        .cta-button:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-glow);
-        }
-        
-        /* Stats Grid */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin: 4rem 0;
-        }
-        
-        .stat-card {
-            background: var(--gradient-card);
-            padding: 2rem;
-            border-radius: 1rem;
-            border: 1px solid hsl(var(--border));
-            text-align: center;
-            transition: var(--transition-smooth);
-        }
-        
-        .stat-card:hover {
-            transform: translateY(-4px);
-            box-shadow: var(--shadow-elegant);
-        }
-        
-        .stat-number {
-            font-size: 2.5rem;
-            font-weight: bold;
-            color: hsl(var(--accent));
-            margin-bottom: 0.5rem;
-        }
-        
-        .stat-label {
-            color: hsl(var(--muted-foreground));
-        }
-        
-        /* Chart Section */
-        .chart-section {
-            margin: 4rem 0;
-            padding: 2rem;
-            background: var(--gradient-card);
-            border-radius: 1rem;
-            border: 1px solid hsl(var(--border));
-        }
-        
+
         .chart-container {
-            position: relative;
-            height: 400px;
-            margin: 2rem 0;
-        }
-        
-        /* Timeline */
-        .timeline {
-            margin: 4rem 0;
-        }
-        
-        .timeline-item {
-            display: flex;
-            gap: 2rem;
-            margin-bottom: 3rem;
-            align-items: center;
-        }
-        
-        .timeline-date {
-            flex-shrink: 0;
-            width: 120px;
-            font-weight: bold;
-            color: hsl(var(--accent));
-        }
-        
-        .timeline-content {
-            flex: 1;
-            padding: 1.5rem;
-            background: var(--gradient-card);
-            border-radius: 0.5rem;
-            border-left: 4px solid hsl(var(--accent));
-        }
-        
-        .timeline-event {
-            font-weight: bold;
-            margin-bottom: 0.5rem;
-        }
-        
-        .timeline-pizza-orders {
-            color: hsl(var(--muted-foreground));
-            font-size: 0.9rem;
-        }
-        
-        /* Responsive */
-        @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 2.5rem;
-            }
-            
-            .nav-links {
-                display: none;
-            }
-            
-            .timeline-item {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            
-            .timeline-date {
-                width: auto;
-            }
-        }
-        
-        /* Metodología */
-        .methodology {
-            margin: 4rem 0;
-            padding: 2rem;
-            background: var(--gradient-card);
+            width: 100%;
+            padding: 1rem;
+            background: rgba(55, 65, 81, 0.1);
             border-radius: 1rem;
-            border: 1px solid hsl(var(--border));
+            border: 1px solid var(--border);
         }
-        
-        .methodology h2 {
-            color: hsl(var(--accent));
-            margin-bottom: 1rem;
-        }
-        
-        .methodology-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
-        }
-        
-        .methodology-item {
-            padding: 1.5rem;
-            background: hsl(var(--secondary) / 0.1);
-            border-radius: 0.5rem;
-        }
-        
-        .methodology-item h3 {
-            color: hsl(var(--foreground));
-            margin-bottom: 1rem;
-        }
-        
-        /* Footer */
-        footer {
-            background: var(--gradient-primary);
-            padding: 2rem 0;
-            text-align: center;
-            margin-top: 4rem;
-        }
-        
-        .footer-content {
-            color: hsl(var(--primary-foreground));
+
+        canvas {
+            width: 100%;
+            height: 100%;
+            display: block;
         }
     </style>
 </head>
+
 <body>
-    <header>
-        <nav class="container">
-            <div class="logo">🍕 Pizza Index</div>
-            <ul class="nav-links">
-                <li><a href="#dashboard">Dashboard</a></li>
-                <li><a href="#analysis">Análisis</a></li>
-                <li><a href="#methodology">Metodología</a></li>
-                <li><a href="#about">Acerca</a></li>
-            </ul>
-        </nav>
-    </header>
-
-    <main>
-        <section class="hero">
-            <div class="hero-content container">
-                <h1>Pizza Index</h1>
-                <p>
-                    Análisis de la correlación entre pedidos de pizza en el Pentágono y eventos geopolíticos mundiales. 
-                    Descubre patrones ocultos en los momentos de mayor tensión internacional.
-                </p>
-                <button class="cta-button" onclick="scrollToSection('dashboard')">
-                    Explorar Datos
-                </button>
-            </div>
-        </section>
-
-        <section id="dashboard" class="container">
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-number">2,847</div>
-                    <div class="stat-label">Pizzas Analizadas</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number">156</div>
-                    <div class="stat-label">Eventos Mundiales</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number">89%</div>
-                    <div class="stat-label">Correlación Detectada</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number">24h</div>
-                    <div class="stat-label">Tiempo de Respuesta</div>
-                </div>
-            </div>
-
-            <div class="chart-section">
-                <h2>📊 Pedidos de Pizza vs Eventos Internacionales</h2>
-                <p style="color: hsl(var(--muted-foreground)); margin-bottom: 2rem;">
-                    Visualización de la relación entre el volumen de pedidos de pizza en el Pentágono y la intensidad de eventos geopolíticos.
-                </p>
-                <div class="chart-container">
-                    <canvas id="pizzaChart"></canvas>
-                </div>
-            </div>
-        </section>
-
-        <section id="analysis" class="container">
-            <div class="timeline">
-                <h2 style="text-align: center; margin-bottom: 3rem; color: hsl(var(--accent));">
-                    🕐 Cronología de Eventos Críticos
-                </h2>
-                
-                <div class="timeline-item">
-                    <div class="timeline-date">Sept 2001</div>
-                    <div class="timeline-content">
-                        <div class="timeline-event">Ataques del 11 de Septiembre</div>
-                        <div class="timeline-pizza-orders">📈 Pico histórico: 347% más pedidos que el promedio</div>
-                    </div>
-                </div>
-                
-                <div class="timeline-item">
-                    <div class="timeline-date">Mar 2003</div>
-                    <div class="timeline-content">
-                        <div class="timeline-event">Invasión de Iraq</div>
-                        <div class="timeline-pizza-orders">📈 Incremento sostenido: +234% durante 72 horas</div>
-                    </div>
-                </div>
-                
-                <div class="timeline-item">
-                    <div class="timeline-date">Oct 2008</div>
-                    <div class="timeline-content">
-                        <div class="timeline-event">Crisis Financiera Global</div>
-                        <div class="timeline-pizza-orders">📊 Patrón irregular: picos de +156% cada 48h</div>
-                    </div>
-                </div>
-                
-                <div class="timeline-item">
-                    <div class="timeline-date">May 2011</div>
-                    <div class="timeline-content">
-                        <div class="timeline-event">Operación Neptuno (Bin Laden)</div>
-                        <div class="timeline-pizza-orders">🚀 Récord nocturno: +523% entre 2:00-6:00 AM</div>
-                    </div>
-                </div>
-                
-                <div class="timeline-item">
-                    <div class="timeline-date">Feb 2022</div>
-                    <div class="timeline-content">
-                        <div class="timeline-event">Invasión de Ucrania</div>
-                        <div class="timeline-pizza-orders">📈 Incremento prolongado: +289% durante 3 semanas</div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="methodology" class="container methodology">
-            <h2>📋 Metodología del Pizza Index</h2>
-            <p style="color: hsl(var(--muted-foreground)); margin-bottom: 2rem;">
-                Nuestro análisis se basa en datos agregados y patrones de comportamiento público disponible.
-            </p>
-            
-            <div class="methodology-grid">
-                <div class="methodology-item">
-                    <h3>🍕 Fuentes de Datos</h3>
-                    <p>Información pública de pedidos, reportes de medios especializados, y análisis de tendencias en redes sociales durante eventos críticos.</p>
-                </div>
-                
-                <div class="methodology-item">
-                    <h3>📊 Análisis Estadístico</h3>
-                    <p>Correlación temporal entre eventos geopolíticos y patrones de consumo. Uso de algoritmos de detección de anomalías.</p>
-                </div>
-                
-                <div class="methodology-item">
-                    <h3>🔍 Validación</h3>
-                    <p>Verificación cruzada con reportes oficiales, análisis de múltiples fuentes independientes y validación por expertos.</p>
-                </div>
-                
-                <div class="methodology-item">
-                    <h3>⚡ Tiempo Real</h3>
-                    <p>Sistema de monitoreo continuo que actualiza métricas cada 4 horas para detectar patrones emergentes.</p>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <footer>
-        <div class="footer-content container">
-            <p>&copy; 2024 Pizza Index Project | Análisis de Datos Geopolíticos | Universidad de Puerto Rico</p>
-            <p style="margin-top: 0.5rem; opacity: 0.8;">
-                * Este proyecto es académico y utiliza datos públicos para fines de investigación
-            </p>
+    <div class="container">
+        <div class="header">
+            <h1>Pizza Index</h1>
+            <p>Línea de Tiempo (1983-2025)</p>
         </div>
-    </footer>
+
+        <div class="chart-container">
+            <canvas id="pizzaChart"></canvas>
+        </div>
+    </div>
 
     <script>
-        // Datos para el gráfico
-        const pizzaData = {
-            labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dec'],
-            datasets: [{
-                label: 'Pedidos de Pizza (promedio diario)',
-                data: [45, 52, 189, 67, 234, 78, 65, 72, 156, 89, 123, 94],
-                borderColor: 'hsl(25, 95%, 53%)',
-                backgroundColor: 'hsla(25, 95%, 53%, 0.1)',
-                borderWidth: 3,
-                fill: true,
-                tension: 0.4
-            }, {
-                label: 'Eventos Internacionales (intensidad)',
-                data: [20, 25, 85, 30, 95, 35, 28, 32, 78, 45, 67, 42],
-                borderColor: 'hsl(215, 100%, 15%)',
-                backgroundColor: 'hsla(215, 100%, 15%, 0.1)',
-                borderWidth: 2,
-                fill: false,
-                tension: 0.4
-            }]
-        };
+        // --- DATA SETUP ---
+        function getChartData() {
+            const baselineData = [
+                25, 25, 22, 22, 22, 20, 20, 20, 24, 24, 25, 25, 25, 25, 22, 22, 22, 20, 20, 20, 24, 24, 25, 25,
+                25, 25, 22, 22, 22, 20, 20, 20, 24, 24, 25, 25, 27, 27, 23, 23, 23, 21, 21, 21, 25, 25, 27, 27,
+                28, 28, 25, 25, 25, 22, 22, 22, 27, 27, 28, 28, 30, 30, 26, 26, 26, 24, 24, 24, 29, 29, 30, 30,
+                32, 32, 28, 28, 28, 25, 25, 25, 30, 30, 32, 32, 34, 34, 29, 29, 29, 26, 26, 26, 32, 32, 34, 34,
+                35, 35, 31, 31, 31, 28, 28, 28, 34, 34, 35, 35, 37, 37, 33, 33, 33, 29, 29, 29, 36, 36, 37, 37,
+                39, 39, 34, 34, 34, 31, 31, 31, 38, 38, 39, 39, 41, 41, 36, 36, 36, 32, 32, 32, 39, 39, 41, 41,
+                43, 43, 38, 38, 38, 34, 34, 34, 41, 41, 43, 43, 45, 45, 40, 40, 40, 36, 36, 36, 43, 43, 45, 45,
+                48, 48, 42, 42, 42, 37, 37, 37, 46, 46, 48, 48, 50, 50, 44, 44, 44, 39, 39, 39, 48, 48, 50, 50,
+                52, 52, 46, 46, 46, 41, 41, 43, 50, 50, 52, 52, 55, 55, 48, 48, 48, 43, 43, 43, 52, 52, 55, 55,
+                56, 56, 49, 49, 49, 44, 44, 44, 54, 54, 56, 56, 58, 58, 50, 50, 50, 45, 45, 45, 55, 55, 58, 58,
+                59, 59, 52, 52, 52, 46, 46, 46, 57, 57, 59, 59, 61, 61, 53, 53, 53, 48, 48, 48, 58, 58, 61, 61,
+                62, 62, 54, 54, 54, 49, 49, 49, 60, 60, 62, 62, 64, 64, 55, 55, 55, 50, 50, 50, 61, 61, 64, 64,
+                65, 65, 57, 57, 57, 51, 51, 51, 62, 62, 65, 65, 66, 66, 58, 58, 58, 52, 52, 52, 63, 63, 66, 66,
+                68, 68, 59, 59, 59, 53, 53, 53, 65, 65, 68, 68, 69, 69, 60, 60, 60, 54, 54, 54, 66, 66, 69, 69,
+                71, 71, 62, 62, 62, 55, 55, 55, 68, 68, 71, 71, 72, 72, 63, 63, 63, 57, 57, 57, 69, 69, 72, 72,
+                74, 74, 65, 65, 65, 58, 58, 58, 71, 71, 74, 74, 76, 76, 66, 66, 66, 59, 59, 59, 73, 73, 76, 76,
+                78, 78, 68, 68, 68, 61, 61, 61, 74, 74, 78, 78, 80, 80, 69, 69, 69, 62, 62, 62, 76, 76, 80, 80,
+                82, 82, 71, 71, 71, 64, 64, 64, 78, 78, 82, 82, 84, 84, 73, 73, 73, 66, 66, 66, 80, 80, 84, 84,
+                86, 86, 75, 75, 75, 67, 67, 67, 82, 82, 86, 86, 88, 88, 77, 77, 77, 69, 69, 69, 84, 84, 88, 88,
+                91, 91, 79, 79, 79, 71, 71, 71, 87, 87, 91, 91, 94, 94, 82, 82, 82, 74, 74, 74, 90, 90, 94, 94,
+                95, 95, 83, 83, 83, 75, 75, 75, 91, 91, 95, 95, 97, 97, 84, 84, 84, 76, 76, 76, 92, 92, 97, 97,
+                98, 98, 85, 85, 85, 77, 77, 77, 94, 94, 98, 98
+            ];
 
-        // Configuración del gráfico
-        const chartConfig = {
-            type: 'line',
-            data: pizzaData,
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        labels: {
-                            color: 'hsl(210, 40%, 98%)'
-                        }
+            const crisisEvents = [{
+                date: '1983-10',
+                crisis: 100,
+                event: 'Invasión Granada'
+            }, {
+                date: '1987-10',
+                crisis: 75,
+                event: 'Lunes Negro'
+            },
+            {
+                date: '1989-12',
+                crisis: 125,
+                event: 'Invasión Panamá'
+            }, {
+                date: '1990-08',
+                crisis: 116,
+                event: 'Guerra del Golfo'
+            },
+            {
+                date: '1991-08',
+                crisis: 157,
+                event: 'Golpe URSS'
+            }, {
+                date: '1993-10',
+                crisis: 63,
+                event: 'Mogadiscio'
+            },
+            {
+                date: '1994-09',
+                crisis: 80,
+                event: 'Invasión Haití'
+            }, {
+                date: '1995-11',
+                crisis: 110,
+                event: 'Lewinsky'
+            },
+            {
+                date: '1998-08',
+                crisis: 200,
+                event: 'Bombardeos Sudán/Afganistán'
+            }, {
+                date: '1998-12',
+                crisis: 175,
+                event: 'Desert Fox'
+            },
+            {
+                date: '1999-03',
+                crisis: 150,
+                event: 'Yugoslavia/Kosovo'
+            }, {
+                date: '2001-09',
+                crisis: 220,
+                event: '11 de Septiembre'
+            },
+            {
+                date: '2001-10',
+                crisis: 125,
+                event: 'Invasión Afganistán'
+            }, {
+                date: '2003-03',
+                crisis: 135,
+                event: 'Invasión Iraq'
+            },
+            {
+                date: '2011-03',
+                crisis: 170,
+                event: 'Intervención Libia'
+            }, {
+                date: '2011-05',
+                crisis: 115,
+                event: 'Raid Bin Laden'
+            },
+            {
+                date: '2017-04',
+                crisis: 140,
+                event: 'Bombardeo Siria'
+            }, {
+                date: '2018-04',
+                crisis: 160,
+                event: 'Bombardeos Siria Multi'
+            },
+            {
+                date: '2019-10',
+                crisis: 95,
+                event: 'Raid ISIS Baghdadi'
+            }, {
+                date: '2020-01',
+                crisis: 135,
+                event: 'Asesinato Soleimani'
+            },
+            {
+                date: '2021-08',
+                crisis: 115,
+                event: 'Atentado Kabul'
+            }, {
+                date: '2022-02',
+                crisis: 130,
+                event: 'Invasión Ucrania'
+            },
+            {
+                date: '2024-04',
+                crisis: 170,
+                event: 'Ataque Israel-Irán'
+            }, {
+                date: '2025-06',
+                crisis: 180,
+                event: 'Bombardeos Israel-Irán'
+            },
+            {
+                date: '2025-08',
+                crisis: 170,
+                event: 'Rumores #TrumpIsDead'
+            }
+            ];
+
+            const monthlyData = [];
+            let dataIndex = 0;
+            const crisisMap = new Map(crisisEvents.map(e => [e.date, e]));
+
+            for (let year = 1983; year <= 2025; year++) {
+                for (let month = 1; month <= 12; month++) {
+                    const dateStr = `${year}-${month.toString().padStart(2, '0')}`;
+                    const baseline = baselineData[dataIndex];
+                    const event = crisisMap.get(dateStr);
+                    let excess = 0;
+                    if (event) {
+                        const calculatedExcess = event.crisis - baseline;
+                        excess = calculatedExcess > 0 ? calculatedExcess : 0;
                     }
-                },
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        ticks: {
-                            color: 'hsl(215, 20%, 65%)'
-                        },
-                        grid: {
-                            color: 'hsla(217, 32%, 17%, 0.5)'
-                        }
-                    },
-                    x: {
-                        ticks: {
-                            color: 'hsl(215, 20%, 65%)'
-                        },
-                        grid: {
-                            color: 'hsla(217, 32%, 17%, 0.5)'
-                        }
-                    }
+                    monthlyData.push({
+                        date: dateStr,
+                        baseline: baseline,
+                        excess: excess,
+                        event: event ? event.event : null,
+                        crisis: event ? event.crisis : null
+                    });
+                    dataIndex++;
                 }
             }
-        };
-
-        // Inicializar gráfico cuando se carga la página
-        window.addEventListener('DOMContentLoaded', function() {
-            const ctx = document.getElementById('pizzaChart').getContext('2d');
-            new Chart(ctx, chartConfig);
-        });
-
-        // Función para scroll suave
-        function scrollToSection(sectionId) {
-            document.getElementById(sectionId).scrollIntoView({
-                behavior: 'smooth'
-            });
+            return {
+                monthlyData
+            };
         }
 
-        // Efectos de hover para las tarjetas de estadísticas
-        document.querySelectorAll('.stat-card').forEach(card => {
-            card.addEventListener('mouseenter', function() {
-                this.style.transform = 'translateY(-8px) scale(1.02)';
-            });
-            
-            card.addEventListener('mouseleave', function() {
-                this.style.transform = 'translateY(0) scale(1)';
-            });
-        });
+        // --- CANVAS DRAWING ---
+        function setupDrawingCanvas() {
+            const canvas = document.getElementById('pizzaChart');
+            const ctx = canvas.getContext('2d');
+            const {
+                monthlyData
+            } = getChartData();
 
-        // Animación de números en las estadísticas
-        function animateNumbers() {
-            const statNumbers = document.querySelectorAll('.stat-number');
-            
-            statNumbers.forEach(stat => {
-                const finalValue = stat.textContent;
-                const isPercentage = finalValue.includes('%');
-                const numericValue = parseInt(finalValue.replace(/[^\d]/g, ''));
-                
-                let currentValue = 0;
-                const increment = numericValue / 50; // Animación en 50 pasos
-                
-                const timer = setInterval(() => {
-                    currentValue += increment;
-                    if (currentValue >= numericValue) {
-                        clearInterval(timer);
-                        stat.textContent = finalValue;
-                    } else {
-                        const displayValue = Math.floor(currentValue);
-                        stat.textContent = isPercentage ? displayValue + '%' : displayValue.toLocaleString();
-                    }
-                }, 40);
-            });
-        }
+            const config = {
+                margin: {
+                    top: 100, // Aumentado para el eje X en la parte superior
+                    right: 250,
+                    bottom: -10, // Reducido porque el eje X se movió
+                    left: 80
+                },
+                colors: {
+                    background: '#0f172a',
+                    baseline: '#3b82f6',
+                    excess: '#fb923c',
+                    crisisStroke: '#dc2626',
+                    text: '#94a3b8',
+                    eventText: '#f8fafc',
+                    grid: 'rgba(51, 65, 85, 0.5)',
+                    axis: '#94a3b8'
+                },
+                font: '12px "Segoe UI"',
+                eventFont: 'bold 13px "Segoe UI"',
+                barHeight: 4.67,
+                barGap: 0.5,
+                maxPizza: 250,
+            };
 
-        // Inicializar animaciones cuando la sección es visible
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    animateNumbers();
-                    observer.unobserve(entry.target);
+            function draw() {
+                const rect = canvas.getBoundingClientRect();
+                if (rect.width === 0) {
+                    requestAnimationFrame(draw);
+                    return;
                 }
-            });
-        });
 
-        observer.observe(document.querySelector('.stats-grid'));
+                const dpr = window.devicePixelRatio || 1;
+                canvas.width = rect.width * dpr;
+                canvas.height = 2800 * dpr;
+                ctx.scale(dpr, dpr);
+                canvas.style.height = '2800px';
+
+                const chartWidth = rect.width - config.margin.left - config.margin.right;
+                const chartHeight = (canvas.height / dpr) - config.margin.top - config.margin.bottom;
+
+                ctx.fillStyle = config.colors.background;
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                
+                drawLegend(chartWidth);
+                drawAxesAndGrid(chartWidth, chartHeight);
+                drawBarsAndEvents(chartWidth);
+            }
+
+            function drawLegend(chartWidth) {
+                ctx.save();
+                const legendY = 15; // Posición Y fija en la parte superior
+                const boxSize = 12;
+                const textOffset = 8;
+                const legendGap = 40;
+
+                ctx.font = 'bold 12px "Segoe UI"';
+                ctx.textBaseline = 'middle';
+
+                const text1 = 'Promedio Diario Normal';
+                const text2 = 'Cantidad Pedida en Día de Crisis';
+                const text1Width = ctx.measureText(text1).width;
+                const text2Width = ctx.measureText(text2).width;
+
+                const legend1Width = boxSize + textOffset + text1Width;
+                const legend2Width = boxSize + textOffset + text2Width - 250;
+                const totalLegendWidth = legend1Width + legendGap + legend2Width;
+
+                let legendXStart = config.margin.left + (chartWidth / 2) - (totalLegendWidth / 2);
+
+                ctx.textAlign = 'left';
+                ctx.fillStyle = config.colors.baseline;
+                ctx.fillRect(legendXStart, legendY - boxSize / 2, boxSize, boxSize);
+                ctx.fillStyle = config.colors.text;
+                ctx.fillText(text1, legendXStart + boxSize + textOffset, legendY);
+
+                const orangeLegendX = legendXStart + legend1Width + legendGap;
+                ctx.fillStyle = config.colors.excess;
+                ctx.fillRect(orangeLegendX, legendY - boxSize / 2, boxSize, boxSize);
+                ctx.fillStyle = config.colors.text;
+                ctx.fillText(text2, orangeLegendX + boxSize + textOffset, legendY);
+
+                ctx.restore();
+            }
+
+            function drawAxesAndGrid(chartWidth, chartHeight) {
+                ctx.save();
+                ctx.font = config.font;
+                ctx.textAlign = 'center';
+                ctx.fillStyle = config.colors.text;
+
+                // --- EJE Y (Años a la izquierda) ---
+                ctx.textAlign = 'right';
+                ctx.textBaseline = 'middle';
+                monthlyData.forEach((d, i) => {
+                    if (d.date.endsWith('-01')) {
+                        const y = config.margin.top + i * (config.barHeight + config.barGap) + config.barHeight / 2;
+                        ctx.fillText(d.date.substring(0, 4), config.margin.left - 15, y);
+                    }
+                });
+
+                // --- EJE X (Superior) y Rejilla Vertical ---
+                ctx.textAlign = 'center';
+                
+                // Título del eje X
+                ctx.fillStyle = config.colors.axis;
+                ctx.font = 'bold 14px "Segoe UI"';
+                ctx.textBaseline = 'bottom';
+                ctx.fillText('Promedio Diario de Pizzas Pedidas', 200 + chartWidth / 2, config.margin.top - 40);
+
+                // Marcas y etiquetas del eje X
+                ctx.font = config.font;
+                ctx.fillStyle = config.colors.text;
+                const tickCount = 5;
+                for (let i = 0; i <= tickCount; i++) {
+                    const value = (config.maxPizza / tickCount) * i;
+                    const x = config.margin.left + (value / config.maxPizza) * chartWidth;
+                    
+                    ctx.fillText(value, x, config.margin.top - 20);
+                    
+                    ctx.beginPath();
+                    ctx.moveTo(x, config.margin.top);
+                    ctx.lineTo(x, config.margin.top + chartHeight);
+                    ctx.strokeStyle = config.colors.grid;
+                    ctx.lineWidth = 0.5;
+                    ctx.stroke();
+                }
+
+                // --- Título del Eje Y (Rotado) ---
+                ctx.fillStyle = config.colors.axis;
+                ctx.font = 'bold 14px "Segoe UI"';
+                ctx.save();
+                ctx.translate(20, config.margin.top + chartHeight / 2);
+                ctx.rotate(-Math.PI / 2);
+                ctx.textAlign = 'center';
+                ctx.fillText('Línea de Tiempo', 0, -10);
+                ctx.restore();
+
+                ctx.restore();
+            }
+
+            function drawBarsAndEvents(chartWidth) {
+                let lastLabelBottomEdge = -Infinity;
+
+                monthlyData.forEach((d, i) => {
+                    const y = config.margin.top + i * (config.barHeight + config.barGap);
+                    const baselineWidth = (d.baseline / config.maxPizza) * chartWidth;
+                    const excessWidth = (d.excess / config.maxPizza) * chartWidth;
+
+                    ctx.fillStyle = config.colors.baseline;
+                    ctx.fillRect(config.margin.left, y, baselineWidth, config.barHeight);
+
+                    if (d.excess > 0) {
+                        ctx.fillStyle = config.colors.excess;
+                        ctx.strokeStyle = config.colors.crisisStroke;
+                        ctx.lineWidth = 1;
+                        ctx.fillRect(config.margin.left + baselineWidth, y, excessWidth, config.barHeight);
+                        ctx.strokeRect(config.margin.left, y, baselineWidth + excessWidth, config.barHeight);
+
+                        ctx.font = config.eventFont;
+                        ctx.fillStyle = config.colors.eventText;
+                        ctx.textAlign = 'left';
+                        ctx.textBaseline = 'middle';
+
+                        const textX = config.margin.left + baselineWidth + excessWidth + 15;
+                        const barCenterY = y + config.barHeight / 2;
+                        const textHeight = 15;
+
+                        let labelY = Math.max(barCenterY, lastLabelBottomEdge + textHeight);
+
+                        ctx.beginPath();
+                        ctx.moveTo(config.margin.left + baselineWidth + excessWidth + 2, barCenterY);
+                        ctx.lineTo(textX - 5, labelY);
+                        ctx.strokeStyle = config.colors.excess;
+                        ctx.lineWidth = 0.8;
+                        ctx.stroke();
+
+                        ctx.fillText(`(${d.date}) ${d.event} | Pizzas: ${d.crisis}`, textX, labelY);
+                        lastLabelBottomEdge = labelY + textHeight / 2;
+                    }
+                });
+            }
+
+            draw();
+            window.addEventListener('resize', draw);
+        }
+
+        window.addEventListener('DOMContentLoaded', setupDrawingCanvas);
     </script>
 </body>
+
 </html>
+
