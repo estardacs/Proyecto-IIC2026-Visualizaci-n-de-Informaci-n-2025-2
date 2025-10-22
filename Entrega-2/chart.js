@@ -18,7 +18,7 @@ class ChartManager {
         this.monthlyData = [];
         this.hoveredEvent = null;
         this.playbackPosition = null;
-        this.isHoverLocked = false; 
+        this.hoverCooldown = false;
         this.setupEventListeners();
     }
 
@@ -49,6 +49,7 @@ class ChartManager {
 
     draw() {
         if (!this.ctx) {
+            console.error("Canvas context not found.");
             return;
         }
 
@@ -60,7 +61,7 @@ class ChartManager {
         this.canvas.width = totalWidth * dpr;
         this.canvas.height = height * dpr;
         this.ctx.scale(dpr, dpr);
-        
+
         this.canvas.style.width = totalWidth + 'px';
         this.canvas.style.height = height + 'px';
 
@@ -72,7 +73,7 @@ class ChartManager {
         this.drawAxes(dataWidth, chartHeight);
         this.drawCrisisEvents(chartHeight);
         this.drawBaselineLine(chartHeight);
-        
+
         if (this.playbackPosition !== null) {
             this.drawPlaybackLine(chartHeight);
         }
@@ -80,16 +81,16 @@ class ChartManager {
 
     drawPlaybackLine(chartHeight) {
         if (this.playbackPosition === null || this.playbackPosition < 0 || this.playbackPosition >= this.monthlyData.length) return;
-        
+
         this.ctx.save();
-        
+
         const x = this.config.margin.left + this.playbackPosition * (this.config.barWidth + this.config.barGap) + this.config.barWidth / 2;
         const topY = this.config.margin.top;
         const bottomY = this.config.margin.top + chartHeight;
-        
+
         this.ctx.shadowColor = 'rgba(255, 255, 255, 0.8)';
         this.ctx.shadowBlur = 10;
-        
+
         this.ctx.beginPath();
         this.ctx.strokeStyle = '#FFFFFF';
         this.ctx.lineWidth = 4;
@@ -97,11 +98,11 @@ class ChartManager {
         this.ctx.moveTo(x, topY);
         this.ctx.lineTo(x, bottomY);
         this.ctx.stroke();
-        
+
         this.ctx.shadowColor = 'transparent';
         this.ctx.shadowBlur = 0;
         this.ctx.setLineDash([]);
-        
+
         this.ctx.restore();
     }
 
@@ -117,23 +118,23 @@ class ChartManager {
 
     drawAxes(chartWidth, chartHeight) {
         this.ctx.save();
-        
+
         this.ctx.font = '12px "Segoe UI"';
         this.ctx.fillStyle = this.config.colors.text;
 
         this.ctx.textAlign = 'right';
         this.ctx.textBaseline = 'middle';
-        
+
         const tickCount = 5;
         for (let i = 0; i <= tickCount; i++) {
             const value = (this.config.maxPizza / tickCount) * i;
             const y = this.config.margin.top + chartHeight - (value / this.config.maxPizza) * chartHeight;
-            
+
             this.ctx.fillText(Math.round(value), this.config.margin.left - 15, y);
         }
 
         this.ctx.save();
-        this.ctx.translate(30, this.config.margin.top + chartHeight / 2 + 20);
+        this.ctx.translate(30, this.config.margin.top + chartHeight / 2);
         this.ctx.rotate(-Math.PI / 2);
         this.ctx.textAlign = 'center';
         this.ctx.font = 'bold 14px "Segoe UI"';
@@ -143,7 +144,7 @@ class ChartManager {
 
         this.ctx.textAlign = 'center';
         this.ctx.textBaseline = 'top';
-        
+
         this.monthlyData.forEach((d, i) => {
             if (d.date.endsWith('-01')) {
                 const x = this.config.margin.left + i * (this.config.barWidth + this.config.barGap) + this.config.barWidth / 2;
@@ -157,9 +158,7 @@ class ChartManager {
     }
 
     drawBaselineLine(chartHeight) {
-        if (this.monthlyData.length < 2) {
-            return; 
-        }
+        if (this.monthlyData.length < 2) return;
 
         this.ctx.save();
 
@@ -201,7 +200,6 @@ class ChartManager {
 
     drawCrisisEvents(chartHeight) {
         this.ctx.save();
-
         const baseY = this.config.margin.top + chartHeight;
 
         this.monthlyData.forEach((d, i) => {
@@ -217,15 +215,15 @@ class ChartManager {
 
                 this.ctx.beginPath();
                 this.ctx.fillStyle = isHighlighted ? '#ffffff' : config.color;
-                
-                this.ctx.moveTo(x - barWidth/2, baseY);
-                this.ctx.lineTo(x - barWidth/2, topY + radius);
-                this.ctx.quadraticCurveTo(x - barWidth/2, topY, x - barWidth/2 + radius, topY);
-                this.ctx.lineTo(x + barWidth/2 - radius, topY);
-                this.ctx.quadraticCurveTo(x + barWidth/2, topY, x + barWidth/2, topY + radius);
-                this.ctx.lineTo(x + barWidth/2, baseY);
+
+                this.ctx.moveTo(x - barWidth / 2, baseY);
+                this.ctx.lineTo(x - barWidth / 2, topY + radius);
+                this.ctx.quadraticCurveTo(x - barWidth / 2, topY, x - barWidth / 2 + radius, topY);
+                this.ctx.lineTo(x + barWidth / 2 - radius, topY);
+                this.ctx.quadraticCurveTo(x + barWidth / 2, topY, x + barWidth / 2, topY + radius);
+                this.ctx.lineTo(x + barWidth / 2, baseY);
                 this.ctx.closePath();
-                
+
                 this.ctx.fill();
 
                 d.renderX = x;
@@ -233,15 +231,11 @@ class ChartManager {
                 d.renderTopY = topY;
             }
         });
-
         this.ctx.restore();
     }
 
-    async handleMouseMove(e) {
-        if (this.isHoverLocked) {
-            this.canvas.style.cursor = 'default';
-            return;
-        }
+    handleMouseMove(e) {
+        if (this.hoverCooldown) return;
 
         const rect = this.canvas.getBoundingClientRect();
         const x = (e.clientX - rect.left);
@@ -253,7 +247,7 @@ class ChartManager {
             if (d.event && d.renderX && d.renderTopY && d.renderBaseY) {
                 const distanceX = Math.abs(x - d.renderX);
                 const isInYRange = y >= d.renderTopY && y <= d.renderBaseY;
-                
+
                 if (distanceX < 10 && isInYRange) {
                     foundEvent = d.event;
                     break;
@@ -263,12 +257,9 @@ class ChartManager {
 
         if (foundEvent) {
             this.canvas.style.cursor = 'pointer';
-            
             if (!this.hoveredEvent || this.hoveredEvent.date !== foundEvent.date) {
-                // Se espera a que el audio se inicialice si es necesario
-                await audioManager.playHoverSound(foundEvent);
+                audioManager.playHoverSound(foundEvent);
             }
-
             this.setHighlightedEvent(foundEvent);
             this.showTooltip(foundEvent, e.clientX, e.clientY);
         } else {
@@ -286,20 +277,13 @@ class ChartManager {
 
     showTooltip(event, clientX, clientY) {
         const tooltip = document.getElementById('tooltip');
-        if (!event || !event.category) { 
-            this.hideTooltip();
-            return;
-        }
-        
         const config = categoryConfig[event.category];
-        
         const monthIndex = getMonthIndex(event.date);
-        if (monthIndex < 0 || monthIndex >= baselineData.length) {
-            this.hideTooltip();
-            return;
-        }
+        
+        if (monthIndex < 0 || monthIndex >= baselineData.length) return;
+        
         const baselineAtEvent = baselineData[monthIndex];
-        const increase = baselineAtEvent > 0 ? Math.round(((event.crisis - baselineAtEvent) / baselineAtEvent) * 100) : 0;
+        const increase = Math.round(((event.crisis - baselineAtEvent) / baselineAtEvent) * 100);
 
         const iconMap = {
             'Invasiones Terrestres': 'assets/icons/militar.svg',
@@ -309,11 +293,9 @@ class ChartManager {
             'Crisis Políticas': 'assets/icons/politica.svg',
             'Crisis Económicas': 'assets/icons/crisis.svg'
         };
-
         const iconSrc = iconMap[event.category] || '';
 
         tooltip.style.borderColor = config.color;
-
         tooltip.innerHTML = `
             <div class="tooltip-header" style="color: ${config.color};">
                 <img src="${iconSrc}" alt="${event.category}" class="tooltip-icon">
@@ -330,36 +312,41 @@ class ChartManager {
 
         tooltip.classList.add('visible');
         
-        const tooltipRect = tooltip.getBoundingClientRect();
-        const chartContainer = this.canvas.closest('.chart-container');
+        const tooltipWidth = 280; 
+        const tooltipHeight = tooltip.offsetHeight;
+        const chartContainer = this.canvas.parentElement;
         const containerRect = chartContainer.getBoundingClientRect();
 
-        const mouseXInContainer = clientX - containerRect.left;
+        const xInContainer = clientX - containerRect.left;
+        const yInContainer = clientY - containerRect.top;
 
-        let left = mouseXInContainer + chartContainer.scrollLeft + 20;
+        let finalLeft;
 
-        let top = clientY - containerRect.top - (tooltipRect.height / 2);
-
-        if (mouseXInContainer + 20 + tooltipRect.width > containerRect.width) {
-            left = mouseXInContainer + chartContainer.scrollLeft - tooltipRect.width - 20;
+        if ((containerRect.width - xInContainer) < (tooltipWidth + 20)) {
+            finalLeft = chartContainer.scrollLeft + xInContainer - tooltipWidth - 20;
+        } else {
+            finalLeft = chartContainer.scrollLeft + xInContainer + 20;
         }
-        
-        top = Math.max(10, Math.min(top, containerRect.height - tooltipRect.height - 10));
-        
-        tooltip.style.transform = 'none';
-        tooltip.style.left = `${left}px`;
-        tooltip.style.top = `${top}px`;
+
+        let finalTop = yInContainer - tooltipHeight / 2;
+        if (finalTop < 10) finalTop = 10;
+        if (finalTop + tooltipHeight > containerRect.height - 10) {
+            finalTop = containerRect.height - tooltipHeight - 10;
+        }
+
+        tooltip.style.left = `${finalLeft}px`;
+        tooltip.style.top = `${finalTop}px`;
     }
+
 
     hideTooltip() {
         const tooltip = document.getElementById('tooltip');
-        if (tooltip.classList.contains('visible')) {
-            this.isHoverLocked = true;
-            setTimeout(() => {
-                this.isHoverLocked = false;
-            }, 100); 
-        }
         tooltip.classList.remove('visible');
+
+        this.hoverCooldown = true;
+        setTimeout(() => {
+            this.hoverCooldown = false;
+        }, 100);
     }
 }
 

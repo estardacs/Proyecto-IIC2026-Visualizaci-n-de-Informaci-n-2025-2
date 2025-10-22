@@ -275,12 +275,9 @@ class PizzaIndexApp {
                 audioManager.playEventSound(data.event);
 
                 this.chartManager.setHighlightedEvent(data.event);
-
-                // --- INICIO DE LA CORRECCIÓN ---
                 const canvasRect = this.chartManager.canvas.getBoundingClientRect();
                 const clientX = canvasRect.left + (data.renderX || 0);
                 const clientY = canvasRect.top + (data.renderTopY || 0);
-                // --- FIN DE LA CORRECCIÓN ---
 
                 this.chartManager.showTooltip(
                     data.event,
