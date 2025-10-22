@@ -444,7 +444,7 @@ canvas {
     justify-content: space-between;
     align-items: center;
     margin-bottom: var(--spacing-sm);
-    padding: 0 60px;
+    padding: 0 170px;
 }
 
 .year-labels span:first-child,
@@ -452,7 +452,6 @@ canvas {
     font-size: 1.1rem;
     font-weight: 700;
     color: var(--pizza-orange);
-    min-width: 50px;
 }
 
 .year-labels span:nth-child(2) {
