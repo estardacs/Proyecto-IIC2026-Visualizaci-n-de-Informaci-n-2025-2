@@ -182,7 +182,7 @@ class PizzaIndexApp {
             </div>
             <div class="stat-card">
                 <h4>Evento Mayor</h4>
-                <div class="value" style="font-size: 1rem;">${maxEvent.event}</div>
+                <div class="value" style="font-size: 1.5rem">${maxEvent.event}</div>
             </div>
         `;
     }
