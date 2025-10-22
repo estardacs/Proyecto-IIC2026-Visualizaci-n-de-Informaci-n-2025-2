@@ -13,7 +13,7 @@ La versión funcional de la visualización está disponible en:
 
 * **HTML5:** Para la estructura semántica de la aplicación.
 * **CSS3:** Para los estilos, el diseño responsivo y las animaciones, utilizando variables de CSS para una fácil tematización.
-* **JavaScript (ES6+):** Para toda la lógica de la aplicación, incluyendo la manipulación del DOM, la gestión de eventos y la lógica de negocio.
+* **JavaScript (ES6+):** Para toda la lógica de la aplicación, incluyendo la manipulación del DOM, la gestión de eventos y la lógica.
 * **Tone.js:** Una librería de Web Audio para la síntesis y reproducción de los efectos de sonido asociados a cada evento en la línea de tiempo.
 
 ## Funcionalidades Principales
