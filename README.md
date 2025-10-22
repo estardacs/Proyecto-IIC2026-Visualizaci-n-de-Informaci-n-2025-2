@@ -7,7 +7,7 @@
 
 ## Visualización Desplegada
 La versión funcional de la visualización está disponible en:
-[Github Pages](https://estardacs.github.io/Proyecto-IIC2026-Visualizaci-n-de-Informaci-n-2025-2/)
+[Github Pages](https://estardacs.github.io/proyecto-visualizacion-de-informacion/)
 
 ## Tecnologías Utilizadas
 
