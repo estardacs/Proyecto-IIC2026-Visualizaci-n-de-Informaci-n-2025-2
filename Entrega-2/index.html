@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pizza Index</title>
+    <link rel="icon" href="assets/icons/pizza.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>
+                <img src="assets/icons/pizza.svg" alt="Pizza" class="title-icon">
+                Pizza Index
+            </h1>
+            <p>Análisis interactivo de la correlación entre pedidos de pizza en el Pentágono y eventos geopolíticos mundiales</p>
+        </header>
+
+        <section class="controls">
+            <div class="control-section">
+                <h3>Filtrar por Tipo de Conflicto</h3>
+                <div class="filter-group" id="filterGroup"></div>
+                <div class="filter-actions">
+                    <button class="btn btn-secondary" id="resetFiltersBtn">
+                        <span class="btn-icon">↺</span>
+                        <span class="btn-text">Restablecer Filtros</span>
+                    </button>
+                </div>
+            </div>
+            <div class="control-section">
+                <h3>Estadísticas</h3>
+                <div class="stats" id="statsContainer"></div>
+            </div>
+            <div class="control-section">
+                <h3>Controles de Sonido</h3>
+                <div class="sound-controls">
+                    <button class="btn btn-primary" id="playAllBtn">
+                        <span class="btn-icon">▶</span>
+                        <span class="btn-text">Reproducir</span>
+                    </button>
+                    <button class="btn btn-secondary" id="stopBtn">
+                        <span class="btn-icon">⏹</span>
+                        <span class="btn-text">Detener</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <div class="chart-wrapper">
+            <div class="chart-header-overlay">
+                <div id="chartLegend" class="chart-legend">
+                    <span class="legend-box"></span>
+                    Promedio Diario Durante el Mes
+                </div>
+                <div id="chartXAxisTitle" class="chart-x-axis-title">
+                    Línea de Tiempo
+                </div>
+            </div>
+            <section class="chart-container">
+                <canvas id="pizzaChart"></canvas>
+                <div class="tooltip" id="tooltip"></div>
+            </section>
+        </div>
+
+        <footer class="footer">
+            <p>Proyecto IIC2026 - Visualización de Información 2025</p>
+            <p>Datos basados en el <a href="https://docs.google.com/spreadsheets/d/1IIOQiWTY5DMXsqtcwbjZx7UK3dP4nAbOOrbSNnpVox8/edit?gid=0#gid=0" target="_blank" rel="noopener noreferrer">Pizza Index</a></p>
+        </footer>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
+    <script src="data.js"></script>
+    <script src="audio.js"></script>
+    <script src="chart.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
+
