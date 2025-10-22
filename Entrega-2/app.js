@@ -9,7 +9,6 @@ class PizzaIndexApp {
     }
 
     init() {
-        console.log('🍕 Initializing Pizza Index...');
         this.chartManager = new ChartManager('pizzaChart');
         this.createFilters();
         this.createYearRangeControls();
@@ -18,16 +17,13 @@ class PizzaIndexApp {
         this.chartManager.update(this.activeCategories);
         this.setupResizeListener();
         this.setupAudioUnlockListener(); 
-        console.log('✅ Pizza Index ready!');
     }
 
     setupAudioUnlockListener() {
         const unlockAudio = async () => {
-            console.log('User interaction detected, warming up audio...');
             await audioManager.init();
         };
 
-        // El listener se ejecuta solo una vez
         document.body.addEventListener('mousedown', unlockAudio, { once: true });
         document.body.addEventListener('touchstart', unlockAudio, { once: true });
     }
@@ -252,7 +248,6 @@ class PizzaIndexApp {
 
         const ready = await audioManager.init();
         if (!ready) {
-            console.warn("Audio context not ready, playback aborted.");
             return;
         }
 

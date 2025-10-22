@@ -16,7 +16,6 @@ class AudioManager {
             try {
                 await Tone.start();
             } catch (e) {
-                console.error("User gesture needed to start audio.", e);
                 return false;
             }
         }
@@ -25,7 +24,6 @@ class AudioManager {
 
         this.initPromise = (async () => {
             try {
-                console.log('🎧 Initializing Tone.js...');
                 
                 this.reverb = new Tone.Reverb({
                     decay: 1.5,
@@ -37,11 +35,9 @@ class AudioManager {
                         const player = new Tone.Player({
                             url: config.soundFile,
                             onload: () => {
-                                console.log(`🔊 ${config.soundFile} loaded.`);
                                 resolve();
                             },
                             onerror: (err) => {
-                                console.error(`❌ Error loading ${config.soundFile}:`, err);
                                 reject(err);
                             }
                         }).connect(this.reverb);
@@ -51,7 +47,6 @@ class AudioManager {
                 
                 await Promise.all(loadPromises);
                 this.isInitialized = true;
-                console.log('✅ All sounds loaded.');
                 
                 const volumeSlider = document.getElementById('volumeSlider');
                 if (volumeSlider) {
@@ -60,7 +55,6 @@ class AudioManager {
 
                 return true;
             } catch (error) {
-                console.error('Error initializing audio:', error);
                 this.isInitialized = false;
                 return false;
             } finally {

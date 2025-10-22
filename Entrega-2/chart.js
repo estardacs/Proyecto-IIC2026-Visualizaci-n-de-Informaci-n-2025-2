@@ -49,7 +49,6 @@ class ChartManager {
 
     draw() {
         if (!this.ctx) {
-            console.error("No se pudo obtener el contexto del canvas.");
             return;
         }
 
