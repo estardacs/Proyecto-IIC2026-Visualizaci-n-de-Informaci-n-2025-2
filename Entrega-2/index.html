@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pizza Index</title>
+    <title>Pizza Index - Visualización Interactiva</title>
     <link rel="icon" href="assets/icons/pizza.svg" type="image/svg+xml">
     <link rel="stylesheet" href="styles.css">
 </head>
@@ -30,10 +30,33 @@
                     </button>
                 </div>
             </div>
+
+            <div class="control-section">
+                <h3>Filtrar por Período de Tiempo</h3>
+                <div class="year-range-controls">
+                    <div class="year-slider-container">
+                        <div class="year-labels">
+                            <span id="startYearLabel">1983</span>
+                            <span>—</span>
+                            <span id="endYearLabel">2025</span>
+                        </div>
+                        <div class="range-slider-wrapper">
+                            <input type="range" id="startYearSlider" min="1983" max="2025" value="1983" step="1">
+                            <input type="range" id="endYearSlider" min="1983" max="2025" value="2025" step="1">
+                        </div>
+                    </div>
+                    <button class="btn btn-secondary" id="resetYearRange">
+                        <span class="btn-icon">↺</span>
+                        <span class="btn-text">Restablecer</span>
+                    </button>
+                </div>
+            </div>
+
             <div class="control-section">
                 <h3>Estadísticas</h3>
                 <div class="stats" id="statsContainer"></div>
             </div>
+
             <div class="control-section">
                 <h3>Controles de Sonido</h3>
                 <div class="sound-controls">
@@ -45,6 +68,20 @@
                         <span class="btn-icon">⏹</span>
                         <span class="btn-text">Detener</span>
                     </button>
+                    <div class="volume-control">
+                        <div id="volumeIconWrapper" class="volume-icon-wrapper">
+                            <svg class="volume-icon-unmuted" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                                <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                            </svg>
+                            <svg class="volume-icon-muted" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                                <line x1="23" y1="9" x2="17" y2="15"></line>
+                                <line x1="17" y1="9" x2="23" y2="15"></line>
+                            </svg>
+                        </div>
+                        <input type="range" id="volumeSlider" min="0" max="100" value="25" class="volume-slider">
+                    </div>
                 </div>
             </div>
         </section>
@@ -67,7 +104,7 @@
 
         <footer class="footer">
             <p>Proyecto IIC2026 - Visualización de Información 2025</p>
-            <p>Datos basados en el <a href="https://docs.google.com/spreadsheets/d/1IIOQiWTY5DMXsqtcwbjZx7UK3dP4nAbOOrbSNnpVox8/edit?gid=0#gid=0" target="_blank" rel="noopener noreferrer">Pizza Index</a></p>
+            <p>Datos basados en el <a href="https://docs.google.com/spreadsheets/d/1IIOQiWTY5DMXsqtcwbjZx7UK3dP4nAbOOrbSNnpVox8/edit?gid=0#gid=0" target="_blank" rel="noopener noreferrer">Pizza Index</a> del Pentágono</p>
         </footer>
     </div>
 
@@ -77,5 +114,6 @@
     <script src="chart.js"></script>
     <script src="app.js"></script>
 </body>
+
 </html>
 
