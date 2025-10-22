@@ -17,24 +17,13 @@
 
 ### Visualización Interactiva
 
-* **Gráfico Dinámico:** Un gráfico renderizado en un Canvas HTML que muestra el "índice de pizzas" a lo largo del tiempo, destacando los picos durante eventos de crisis.
+* **Gráfico Dinámico:** Un gráfico que muestra el "índice de pizzas" a lo largo del tiempo, destacando los picos durante eventos de crisis.
 * **Tooltips Informativos:** Al pasar el cursor sobre un evento, aparece un tooltip con información detallada, como la fecha, el tipo de crisis, la cantidad de pizzas pedidas y el incremento porcentual sobre el promedio.
-
-### Controles y Filtros
-
-* **Filtro por Categoría:** Los usuarios pueden activar o desactivar categorías de eventos (por ejemplo, "Invasiones Terrestres", "Crisis Económicas") para enfocar el análisis.
-* **Filtro por Rango de Años:** Un slider de doble mango permite seleccionar un período de tiempo específico para la visualización.
-* **Estadísticas en Tiempo Real:** Un panel de estadísticas que se actualiza dinámicamente según los filtros aplicados, mostrando métricas clave como el total de eventos, el total de pizzas y el evento con mayor impacto.
 
 ### Experiencia Audiovisual
 
 * **Línea de Tiempo Sonora:** Una función de reproducción que recorre cronológicamente los eventos, activando efectos de sonido únicos para cada categoría de crisis, creando una narrativa inmersiva.
 * **Sonidos de Interacción:** Efectos de sonido sutiles al interactuar con los elementos del gráfico, mejorando la experiencia de usuario.
-
-### Interfaz
-
-* **Diseño Responsivo:** La interfaz se adapta correctamente a diferentes tamaños de pantalla, desde dispositivos móviles hasta escritorios.
-* **Controles Intuitivos:** Todos los filtros y controles están diseñados para ser fáciles de usar y entender.
 
 
 ## Equipo de Desarrollo
