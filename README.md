@@ -1,4 +1,4 @@
-# Proyecto IIC2026 - Visualización de Información (2025-2): Pizza Index
+# Proyecto IIC2026 - Visualización de Información (2025-2)
 
 
 ## Descripción
