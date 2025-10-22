@@ -263,22 +263,30 @@ body {
 }
 
 .volume-icon-wrapper {
-    color: var(--muted-foreground);
-    flex-shrink: 0;
+    position: relative;
+    width: 24px;       
+    height: 24px;      
     cursor: pointer;
+    color: var(--muted-foreground);
     padding: 4px;
 }
 
+.volume-icon-wrapper svg {
+    position: absolute;
+    top: 1px; 
+    left: -2px; 
+    transition: opacity 0.2s ease; 
+}
+
 .volume-icon-muted {
-    display: none;
+    opacity: 0;
 }
 
 .volume-control.is-muted .volume-icon-unmuted {
-    display: none;
+    opacity: 0;
 }
-
 .volume-control.is-muted .volume-icon-muted {
-    display: block;
+    opacity: 1;
 }
 
 
