@@ -16,7 +16,7 @@ class PizzaIndexApp {
         this.updateStats();
         this.chartManager.update(this.activeCategories);
         this.setupResizeListener();
-        this.setupAudioUnlockListener(); 
+        this.setupAudioUnlockListener();
     }
 
     setupAudioUnlockListener() {
@@ -209,13 +209,13 @@ class PizzaIndexApp {
         playBtn.addEventListener('click', () => this.playTimeline());
         stopBtn.addEventListener('click', () => this.stopTimeline());
         resetBtn.addEventListener('click', () => this.resetFilters());
-        
+
         volumeSlider.addEventListener('input', (e) => {
             const volume = parseInt(e.target.value);
             audioManager.setVolume(volume);
             volumeControl.classList.toggle('is-muted', volume === 0);
         });
-        
+
         volumeIconWrapper.addEventListener('click', () => {
             const { isMuted, volume } = audioManager.toggleMute();
             volumeSlider.value = isMuted ? 0 : volume;
@@ -275,10 +275,12 @@ class PizzaIndexApp {
                 audioManager.playEventSound(data.event);
 
                 this.chartManager.setHighlightedEvent(data.event);
-                
-                const clientX = (data.renderX || 0) + this.chartManager.canvas.getBoundingClientRect().left - chartContainer.scrollLeft;
-                const clientY = (data.renderTopY || 0) + this.chartManager.canvas.getBoundingClientRect().top;
 
+                // --- INICIO DE LA CORRECCIÓN ---
+                const canvasRect = this.chartManager.canvas.getBoundingClientRect();
+                const clientX = canvasRect.left + (data.renderX || 0);
+                const clientY = canvasRect.top + (data.renderTopY || 0);
+                // --- FIN DE LA CORRECCIÓN ---
 
                 this.chartManager.showTooltip(
                     data.event,
