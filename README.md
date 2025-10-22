@@ -5,6 +5,9 @@
 
 "Pizza Index" es una aplicación de visualización de información interactiva. Su propósito es explorar la correlación (real o ficticia) entre los pedidos de pizza en el Pentágono y los principales eventos geopolíticos mundiales desde 1983 hasta la actualidad. La plataforma permite a los usuarios analizar los datos a través de un gráfico dinámico, filtros interactivos y una experiencia audiovisual inmersiva.
 
+## Aplicación Desplegada
+La versión funcional de la aplicación está disponible en:
+[Github Pages](https://estardacs.github.io/Proyecto-IIC2026-Visualizaci-n-de-Informaci-n-2025-2/)
 
 ## Tecnologías Utilizadas
 
