@@ -120,7 +120,7 @@ class PizzaIndexApp {
         if (!this.startSlider || !this.endSlider) return;
 
         const wrapperWidth = wrapper.offsetWidth;
-        const padding = 60;
+        const padding = 40;
         const availableWidth = wrapperWidth - (padding * 2);
 
         const startPercent = (startValue - min) / range;
@@ -210,10 +210,10 @@ class PizzaIndexApp {
 
         this.isPlaying = true;
         const playBtn = document.getElementById('playAllBtn');
-        const btnIcon = playBtn.querySelector('.btn-icon');
+        const btnIcon = playBtn.querySelector('.btn-icon-svg');
         const btnText = playBtn.querySelector('.btn-text');
 
-        btnIcon.innerHTML = '⏸';
+        btnIcon.innerHTML = '<rect x="6" y="5" width="4" height="14"/><rect x="14" y="5" width="4" height="14"/>';
         btnIcon.classList.add('playing-indicator');
         btnText.textContent = 'Reproduciendo...';
 
@@ -259,10 +259,10 @@ class PizzaIndexApp {
         audioManager.stopAllSounds();
 
         const playBtn = document.getElementById('playAllBtn');
-        const btnIcon = playBtn.querySelector('.btn-icon');
+        const btnIcon = playBtn.querySelector('.btn-icon-svg');
         const btnText = playBtn.querySelector('.btn-text');
 
-        btnIcon.innerHTML = '▶';
+        btnIcon.innerHTML = '<path d="M8 5v14l11-7z"/>';
         btnIcon.classList.remove('playing-indicator');
         btnText.textContent = 'Reproducir';
 
