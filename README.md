@@ -31,6 +31,6 @@ La versión funcional de la visualización está disponible en:
 
 ## Equipo de Desarrollo
 
-* Fernando Concha 
+* Fernando Concha  
 * Cristian Troncoso
 * Branko Ivelic
