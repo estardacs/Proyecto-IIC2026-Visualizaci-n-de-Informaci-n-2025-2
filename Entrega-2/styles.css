@@ -382,20 +382,6 @@ canvas {
     display: block;
     cursor: default;
 }
-    
-/* --- MODIFICACIÓN (Solución Salto de Altura Definitiva) --- */
-/*
-  ELIMINAMOS la regla "height: 100% !important;"
-  JavaScript se encargará de definir la altura del canvas
-  después de que el layout (flex: 1) se haya calculado.
-*/
-/*
-#pizzaChart {
-    height: 100% !important;
-}
-*/
-/* --- FIN MODIFICACIÓN --- */
-
 
 .chart-header-overlay {
     position: absolute;
@@ -407,7 +393,6 @@ canvas {
     pointer-events: none;
 }
 
-/* Contenedor principal de controles UX debajo del gráfico */
 .controls-section {
     width: 100%;
     display: grid;
@@ -420,7 +405,6 @@ canvas {
     flex-shrink: 0;
 }
 
-/* Controles de reproducción (izquierda) */
 .playback-controls {
     display: flex;
     gap: 1rem;
@@ -428,7 +412,6 @@ canvas {
     flex-wrap: wrap;
 }
 
-/* Filtro de años (centro) */
 .year-filter-controls {
     display: flex;
     flex-direction: column;
@@ -454,7 +437,6 @@ canvas {
     color: var(--foreground);
 }
 
-/* Filtros de categorías (derecha) */
 .category-filters {
     display: flex;
     justify-content: flex-end;

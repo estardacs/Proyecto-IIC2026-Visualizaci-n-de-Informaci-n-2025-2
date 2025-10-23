@@ -102,10 +102,6 @@ class PizzaIndexApp {
             this.chartManager.updateWithYearRange(this.activeCategories, this.yearRange);
         });
 
-        //document.getElementById('resetYearRange').addEventListener('click', () => {
-        //    this.resetYearRange();
-        //});
-
         this.updateSliderProgress(1983, 2025);
     }
 
@@ -145,15 +141,6 @@ class PizzaIndexApp {
         this.chartManager.updateWithYearRange(this.activeCategories, this.yearRange);
     }
 
-    //resetYearRange() {
-    //    this.yearRange = { start: 1983, end: 2025 };
-    //    this.startSlider.value = 1983;
-    //    this.endSlider.value = 2025;
-    //    document.getElementById('startYearLabel').textContent = '1983';
-    //    document.getElementById('endYearLabel').textContent = '2025';
-    //    this.updateSliderProgress(1983, 2025);
-    //    this.chartManager.updateWithYearRange(this.activeCategories, this.yearRange);
-    //}
 
     setupSoundControls() {
         const playBtn = document.getElementById('playAllBtn');

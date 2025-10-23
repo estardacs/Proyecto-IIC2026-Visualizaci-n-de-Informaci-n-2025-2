@@ -3,10 +3,10 @@ class ChartManager {
         this.canvas = document.getElementById(canvasId);
         this.ctx = this.canvas.getContext('2d');
         this.config = {
-            margin: { top: 20, right: 0, bottom: 40, left: 80 }, // Margen derecho ajustado a 0
+            margin: { top: 20, right: 0, bottom: 40, left: 80 }, 
             colors: {
                 background: '#ffffff',
-                baseline: '#0e7490', // Color de la línea base cambiado
+                baseline: '#0e7490',
                 text: '#6b7280',
                 eventText: '#111827',
                 axis: '#6b7280'
@@ -19,12 +19,9 @@ class ChartManager {
         this.hoveredEvent = null;
         this.playbackPosition = null;
         this.hoverCooldown = false;
-        
-        // --- MODIFICACIÓN (Solución Salto de Altura) ---
-        // Volvemos a añadir el flag de inicialización
+
         this.resizeTimer = null;
         this.isInitialized = false; 
-        // --- FIN MODIFICACIÓN ---
 
         this.setupEventListeners();
     }
@@ -32,16 +29,13 @@ class ChartManager {
     setupEventListeners() {
         this.canvas.addEventListener('mousemove', (e) => this.handleMouseMove(e));
         this.canvas.addEventListener('mouseleave', () => this.handleMouseLeave());
-        
-        // --- MODIFICACIÓN (Solución Salto de Altura) ---
-        // Se añade un "debounce" al listener de resize para mejorar el rendimiento
+
         window.addEventListener('resize', () => {
             clearTimeout(this.resizeTimer);
             this.resizeTimer = setTimeout(() => {
-                this.draw(true); // Reinicia el scroll en resize
-            }, 100); // 100ms de espera antes de redibujar
+                this.draw(true); 
+            }, 100); 
         });
-        // --- FIN MODIFICACIÓN ---
     }
 
     darkenColor(color, percent) {
@@ -56,28 +50,19 @@ class ChartManager {
     update(activeCategories) {
         this.monthlyData = generateMonthlyData(activeCategories);
 
-        // --- MODIFICACIÓN (Forzar Doble Dibujado) ---
-        // Esta es la solución que propusiste: forzar el "salto"
-        // para que ocurra invisiblemente al cargar.
         if (!this.isInitialized) {
             setTimeout(() => {
-                
-                // 1. Primer dibujado: Lee la altura (posiblemente incorrecta) y la establece.
+
                 this.draw(true); 
                 
-                // 2. Segundo dibujado: Inmediatamente después, volvemos a llamar.
-                // Esto fuerza al navegador a recalcular la altura (leyendo la del contenedor
-                // que ahora SÍ tiene un canvas dentro) y la establece de forma definitiva.
-                // Esto "absorbe" el salto antes de que el usuario lo vea.
                 this.draw(true);
                 
                 this.isInitialized = true;
                 
-            }, 100); // 100ms de retraso
+            }, 100);
         } else {
-            this.draw(true); // Las actualizaciones siguientes son síncronas
+            this.draw(true); 
         }
-        // --- FIN MODIFICACIÓN ---
     }
 
     updateWithYearRange(activeCategories, yearRange) {
@@ -86,12 +71,12 @@ class ChartManager {
             const year = parseInt(d.date.substring(0, 4));
             return year >= yearRange.start && year <= yearRange.end;
         });
-        this.draw(true); // Reinicia el scroll al actualizar datos
+        this.draw(true); 
     }
 
     setHighlightedEvent(event) {
         this.hoveredEvent = event;
-        this.draw(false); // No reinicia el scroll en hover
+        this.draw(false);
     }
 
     draw(resetScroll = false) { 
@@ -102,44 +87,31 @@ class ChartManager {
 
         const dpr = window.devicePixelRatio || 1;
         const container = this.canvas.parentElement;
-        // --- MODIFICACIÓN (Solución Salto de Altura) ---
-        // 1. Leemos la altura del *contenedor* (que es 100% del wrapper flexible)
         const containerHeight = container.clientHeight;
         
         let dataWidth = this.monthlyData.length * (this.config.barWidth + this.config.barGap);
         if (this.monthlyData.length > 0) {
-            dataWidth -= this.config.barGap; // Restamos el espacio sobrante después de la última barra
+            dataWidth -= this.config.barGap; 
         }
         
-        // El buffer es la mitad de la expansión de la barra al hacer hover (3px / 2)
         const highlightBuffer = 1.5; 
         
-        // El ancho total del canvas DEBE incluir el buffer para que la barra quepa al expandirse
         const totalWidth = dataWidth + this.config.margin.left + this.config.margin.right + highlightBuffer;
         
-        // 2. Calculamos la altura del canvas (lógica original)
         const height = Math.max(containerHeight - 40, 400);
 
-        // 3. Seteamos la resolución interna
         this.canvas.width = totalWidth * dpr;
         this.canvas.height = height * dpr;
         this.ctx.scale(dpr, dpr);
 
-        // 4. Seteamos el tamaño del *elemento* canvas (ancho y alto)
         this.canvas.style.width = totalWidth + 'px';
-        this.canvas.style.height = height + 'px'; // <-- LÍNEA RE-AÑADIDA
-        // --- FIN MODIFICACIÓN ---
+        this.canvas.style.height = height + 'px';
 
-        // --- ARREGLO DEL "SALTO" INICIAL (Scroll) ---
         if (resetScroll && container.scrollWidth > container.clientWidth) {
             setTimeout(() => {
-                // --- MODIFICACIÓN (Inicio a la izquierda) ---
-                // Se establece el scroll a 0 para comenzar por la izquierda
                 container.scrollLeft = 0; 
-                // --- FIN MODIFICACIÓN ---
             }, 0);
         }
-        // <<< FIN DE LA MODIFICACIÓN >>>
 
         const chartHeight = height - this.config.margin.top - this.config.margin.bottom;
 
@@ -161,7 +133,7 @@ class ChartManager {
         this.ctx.save();
 
         const x = this.config.margin.left + this.playbackPosition * (this.config.barWidth + this.config.barGap) + this.config.barWidth / 2;
-        const topY = this.config.margin.top + 15; // Inicia 15px más abajo para no chocar con la leyenda
+        const topY = this.config.margin.top + 15; 
         const bottomY = this.config.margin.top + chartHeight;
 
         this.ctx.beginPath();
@@ -179,12 +151,12 @@ class ChartManager {
 
     setPlaybackPosition(index) {
         this.playbackPosition = index;
-        this.draw(false); // No reinicia el scroll durante la reproducción
+        this.draw(false); 
     }
 
     clearPlaybackLine() {
         this.playbackPosition = null;
-        this.draw(false); // No reinicia el scroll al limpiar
+        this.draw(false); 
     }
 
     drawAxes(chartWidth, chartHeight) {
@@ -243,10 +215,7 @@ class ChartManager {
 
         path.moveTo(this.config.margin.left, baseY);
         
-        // --- MODIFICACIÓN (Inicio en Eje Y) ---
-        // El path ahora inicia desde el eje Y (margin.left) hasta el "y" del primer punto.
         path.lineTo(this.config.margin.left, points[0].y);
-        // --- FIN MODIFICACIÓN ---
 
         for (let i = 0; i < points.length - 2; i++) {
             const xc = (points[i].x + points[i + 1].x) / 2;
@@ -370,7 +339,7 @@ class ChartManager {
             'Operaciones Especiales': 'assets/icons/espia.svg',
             'Atentados Terroristas': 'assets/icons/terrorista.svg',
             'Crisis Políticas': 'assets/icons/politica.svg',
-            'Crisis Económicas': 'assets.icons/crisis.svg' // Corregido (era assets.icons...)
+            'Crisis Económicas': 'assets/icons/crisis.svg' 
         };
         const iconSrc = iconMap[event.category] || '';
 
@@ -427,6 +396,7 @@ class ChartManager {
         }, 100);
     }
 }
+
 
 
 
