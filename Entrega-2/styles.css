@@ -35,8 +35,6 @@
 }
 
 body {
-    /* --- CAMBIO AQUÍ --- */
-    /* Fuente 'Montserrat' importada, muy notable y moderna */
     font-family: 'Montserrat', sans-serif;
     background: var(--background);
     color: var(--foreground);
@@ -78,8 +76,8 @@ body {
     align-items: center;
     justify-content: center;
     gap: var(--spacing-sm);
-    /* Fuente con serifas para el título, como te gustó */
-    font-family: 'Georgia', 'Times New Roman', Times, serif;
+    /* --- CAMBIO AQUÍ: Sin serifas --- */
+    font-family: inherit;
 }
 
 .title-icon {
@@ -363,7 +361,7 @@ body {
 .volume-slider:active::-moz-range-thumb {
     cursor: grabbing;
     transform: scale(1.15);
-    box-shadow: 0 44px 10px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
 
 .chart-wrapper {
@@ -482,7 +480,7 @@ canvas {
 
 .timeline-label {
     position: absolute;
-    bottom: 40px;
+    bottom: 30px;
     left: 50%;
     transform: translateX(-50%);
     font-size: 0.9rem;
@@ -819,5 +817,4 @@ canvas {
     align-items: center;
     gap: 0.4rem;
 }
-
 

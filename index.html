@@ -13,13 +13,14 @@
     
     <style>
         body {
-            /* --- CAMBIO AQUÍ --- */
+            /* --- CAMBIO AQUÍ: MODO CLARO --- */
             font-family: 'Montserrat', sans-serif;
-            background-color: #0f172a;
+            background-color: #f8fafc; /* Fondo gris muy claro */
         }
         .main-container {
             min-height: 100vh;
-            background-image: radial-gradient(#1e3a8a 1px, transparent 1px);
+            /* --- CAMBIO AQUÍ: MODO CLARO --- */
+            background-image: radial-gradient(#cbd5e1 1px, transparent 1px); /* Puntos grises */
             background-size: 20px 20px;
         }
         .btn-glow {
@@ -30,28 +31,33 @@
         }
     </style>
 </head>
-<body class="text-white">
+<!-- --- CAMBIO AQUÍ: MODO CLARO --- -->
+<body class="text-slate-900"> <!-- Texto oscuro por defecto -->
 
     <div class="main-container flex items-center justify-center p-4">
-        <div class="w-full max-w-2xl text-center bg-slate-800/50 backdrop-blur-sm p-8 md:p-12 rounded-2xl border border-slate-700">
+        <!-- --- CAMBIOS AQUÍ: MODO CLARO --- -->
+        <div class="w-full max-w-2xl text-center bg-white/70 backdrop-blur-sm p-8 md:p-12 rounded-2xl border border-slate-200 shadow-lg">
             
             <header class="mb-8">
                 <img src="./Entrega-2/assets/icons/pizza.svg" alt="Icono de Pizza" class="mx-auto mb-4 w-20 h-20">
-                <!-- --- CAMBIOS AQUÍ --- -->
-                <h1 class="text-4xl md:text-5xl font-bold text-orange-500 tracking-tight" style="font-family: 'Georgia', 'Times New Roman', Times, serif;">
+                <!-- --- CAMBIOS AQUÍ: Sin serifas --- -->
+                <h1 class="text-4xl md:text-5xl font-bold text-cyan-600 tracking-tight">
                     Pizza Index
                 </h1>
             </header>
 
             <main>
-                <p class="mb-8 text-slate-300">
+                <!-- --- CAMBIO AQUÍ: MODO CLARO --- -->
+                <p class="mb-8 text-slate-600">
                     Selecciona la versión del proyecto que deseas visualizar.
                 </p>
                 <div class="flex flex-col md:flex-row gap-6 justify-center">
-                    <a href="./Entrega-1/index.html" class="btn-glow block bg-slate-700 hover:bg-slate-600 text-white font-bold py-4 px-8 rounded-lg text-xl">
+                    <!-- --- CAMBIO AQUÍ: MODO CLARO (Botón 1) --- -->
+                    <a href="./Entrega-1/index.html" class="btn-glow block bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold py-4 px-8 rounded-lg text-xl">
                         Ver Entrega 1
                     </a>
-                    <a href="./Entrega-2/index.html" class="btn-glow block bg-orange-600 hover:bg-orange-500 text-white font-bold py-4 px-8 rounded-lg text-xl">
+                    <!-- --- CAMBIO AQUÍ: MODO CLARO (Botón 2 - color cian) --- -->
+                    <a href="./Entrega-2/index.html" class="btn-glow block bg-cyan-600 hover:bg-cyan-700 text-white font-bold py-4 px-8 rounded-lg text-xl">
                         Ver Entrega 2
                     </a>
                 </div>
@@ -65,3 +71,5 @@
 
 </body>
 </html>
+
+
