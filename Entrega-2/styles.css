@@ -70,20 +70,18 @@ body {
 .header h1 {
     font-size: 2rem;
     margin-bottom: 0.15rem;
-    font-weight: 700; /* Un poco más grueso */
+    font-weight: 700; 
     color: var(--foreground);
     display: flex;
     align-items: center;
     justify-content: center;
     gap: var(--spacing-sm);
-    /* --- CAMBIO AQUÍ: Sin serifas --- */
     font-family: inherit;
 }
 
 .title-icon {
-    /* --- CAMBIO AQUÍ --- */
-    width: 36px; /* Aumenta el ancho */
-    height: 36px; /* Aumenta el alto */
+    width: 36px;
+    height: 36px; 
     filter: none;
 }
 
@@ -91,7 +89,6 @@ body {
     font-size: 1rem;
     color: var(--muted-foreground);
     margin: 0;
-    /* Hereda la fuente moderna del body */
     font-family: inherit;
 }
 
@@ -478,16 +475,18 @@ canvas {
     transform: translateX(-50%);
 }
 
-.timeline-label {
+.timeline-label-container {
     position: absolute;
     bottom: 30px;
     left: 50%;
     transform: translateX(-50%);
+    pointer-events: none;
+}
+
+.timeline-label {
     font-size: 0.9rem;
     font-weight: 600;
     color: var(--foreground);
-    pointer-events: none;
-    z-index: 5;
 }
 
 
@@ -803,6 +802,22 @@ canvas {
 
     .control-section h3 {
         font-size: 1rem;
+    }
+}
+
+@media (max-height: 720px) {
+    .timeline-label-container {
+        bottom: 8px;
+    }
+
+    .timeline-label {
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-height: 700px) {
+    .timeline-label-container {
+        display: none;
     }
 }
 
