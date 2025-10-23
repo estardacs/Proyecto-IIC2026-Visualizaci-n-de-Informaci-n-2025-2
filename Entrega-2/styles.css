@@ -14,9 +14,9 @@
     --crisis-economicas: #EC4899;
     --spacing-xs: 0.25rem;
     --spacing-sm: 0.5rem;
-    --spacing-md: 1rem;
-    --spacing-lg: 1.5rem;
-    --spacing-xl: 2rem;
+    --spacing-md: 0.5rem;
+    --spacing-lg: 0.5rem;
+    --spacing-xl: 0.5rem;
     --radius-sm: 0.5rem;
     --radius-md: 1rem;
     --radius-lg: 1.5rem;
@@ -56,7 +56,7 @@ body {
 }
 
 .header h1 {
-    font-size: clamp(2rem, 5vw, 2.5rem);
+    font-size: clamp(1.5rem, 3.75vw, 1.875rem);
     margin-bottom: var(--spacing-sm);
     font-weight: bold;
     color: var(--foreground);
@@ -364,6 +364,7 @@ body {
     overflow-y: hidden;
     -webkit-overflow-scrolling: touch;
     position: relative;
+    padding-bottom: 96px;
 }
 
 canvas {
@@ -381,6 +382,31 @@ canvas {
     height: 100%;
     z-index: 5;
     pointer-events: none;
+}
+
+.chart-header-overlay .timeline-controls {
+  position: absolute;            
+  left: calc(50% + 30px);                     
+  bottom: 20px;                  
+  transform: translateX(-50%);
+  pointer-events: auto;
+  margin: 0;                     
+  padding: 10px 12px;
+  background: rgba(15,23,42,0.85);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  display: grid;
+  gap: 8px;
+  max-width: 720px;
+}
+
+.chart-header-overlay .timeline-controls .year-labels {
+  display: flex; align-items: center; justify-content: space-between;
+  font-weight: 700;
+}
+
+.chart-header-overlay .timeline-controls .range-slider-wrapper {
+  display: grid; gap: 6px;
 }
 
 .chart-legend,
@@ -404,7 +430,7 @@ canvas {
 }
 
 .chart-x-axis-title {
-    bottom: 25px;
+    bottom: 116px;
     left: calc(50% + 30px);
 }
 
@@ -733,3 +759,67 @@ canvas {
     }
 }
 
+.sound-controls-overlay {
+    position: absolute;
+    bottom: 25px;
+    left: 15px;
+    z-index: 10;
+    background: rgba(15, 23, 42, 0.85);
+    border-radius: 10px;
+    padding: 10px 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    backdrop-filter: blur(6px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+    pointer-events: auto;
+}
+
+.filter-row {
+  display: flex;
+  align-items: center;
+  gap: 8px 8px;      
+  flex-wrap: wrap;   
+  overflow: visible;
+  padding-bottom: 0; 
+  justify-content: center;
+}
+
+
+.filter-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+  justify-content: center;
+}
+
+.filter-item {
+  padding: 6px 10px;
+  font-size: 0.85rem;
+  border-radius: 8px;
+  gap: 6px;
+  flex: 0 1 auto;   
+}
+
+.filter-icon-img { width: 20px; height: 20px; }
+.color-indicator { width: 14px; height: 14px; border-radius: 3px; }
+.filter-label { white-space: nowrap; }
+
+
+.btn.btn-sm {
+  padding: 6px 10px;
+  font-size: 0.85rem;
+  border-radius: 8px;
+  white-space: nowrap;
+}
+
+
+
+.control-section:has(#filterGroup) h3 {
+  text-align: center;
+  width: 100%;
+}
+
+.filter-group > .filter-item { order: 0; }
+#resetFiltersBtn { order: 999; }  

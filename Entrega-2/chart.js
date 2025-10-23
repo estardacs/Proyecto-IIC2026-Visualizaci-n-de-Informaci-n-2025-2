@@ -56,7 +56,7 @@ class ChartManager {
         const dpr = window.devicePixelRatio || 1;
         const dataWidth = this.monthlyData.length * (this.config.barWidth + this.config.barGap);
         const totalWidth = dataWidth + this.config.margin.left + this.config.margin.right;
-        const height = 600;
+        const height = 440;
 
         this.canvas.width = totalWidth * dpr;
         this.canvas.height = height * dpr;

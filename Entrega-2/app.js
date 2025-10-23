@@ -13,7 +13,6 @@ class PizzaIndexApp {
         this.createFilters();
         this.createYearRangeControls();
         this.setupSoundControls();
-        this.updateStats();
         this.chartManager.update(this.activeCategories);
         this.setupResizeListener();
         this.setupAudioUnlockListener();
@@ -85,7 +84,6 @@ class PizzaIndexApp {
             startLabel.textContent = startValue;
             this.yearRange.start = startValue;
             this.updateSliderProgress(startValue, endValue);
-            this.updateStats();
             this.chartManager.updateWithYearRange(this.activeCategories, this.yearRange);
         });
 
@@ -101,13 +99,12 @@ class PizzaIndexApp {
             endLabel.textContent = endValue;
             this.yearRange.end = endValue;
             this.updateSliderProgress(startValue, endValue);
-            this.updateStats();
             this.chartManager.updateWithYearRange(this.activeCategories, this.yearRange);
         });
 
-        document.getElementById('resetYearRange').addEventListener('click', () => {
-            this.resetYearRange();
-        });
+        //document.getElementById('resetYearRange').addEventListener('click', () => {
+        //    this.resetYearRange();
+        //});
 
         this.updateSliderProgress(1983, 2025);
     }
@@ -145,58 +142,18 @@ class PizzaIndexApp {
             element.classList.add('active');
         }
 
-        this.updateStats();
         this.chartManager.updateWithYearRange(this.activeCategories, this.yearRange);
     }
 
-    updateStats() {
-        const filtered = crisisEvents.filter(e => {
-            const eventYear = parseInt(e.date.substring(0, 4));
-            return this.activeCategories.has(e.category) &&
-                eventYear >= this.yearRange.start &&
-                eventYear <= this.yearRange.end;
-        });
-
-        const totalPizzas = filtered.reduce((sum, e) => sum + e.crisis, 0);
-        const avgPizzas = filtered.length > 0 ?
-            Math.round(totalPizzas / filtered.length) :
-            0;
-        const maxEvent = filtered.reduce(
-            (max, e) => e.crisis > max.crisis ? e : max,
-            filtered[0] || { crisis: 0, event: 'N/A' }
-        );
-
-        const statsContainer = document.getElementById('statsContainer');
-        statsContainer.innerHTML = `
-            <div class="stat-card">
-                <h4>Total de Eventos</h4>
-                <div class="value">${filtered.length}</div>
-            </div>
-            <div class="stat-card">
-                <h4>Total de Pizzas</h4>
-                <div class="value">${totalPizzas.toLocaleString()}</div>
-            </div>
-            <div class="stat-card">
-                <h4>Promedio por Crisis</h4>
-                <div class="value">${avgPizzas}</div>
-            </div>
-            <div class="stat-card">
-                <h4>Evento Mayor</h4>
-                <div class="value" style="font-size: 1.5rem">${maxEvent.event}</div>
-            </div>
-        `;
-    }
-
-    resetYearRange() {
-        this.yearRange = { start: 1983, end: 2025 };
-        this.startSlider.value = 1983;
-        this.endSlider.value = 2025;
-        document.getElementById('startYearLabel').textContent = '1983';
-        document.getElementById('endYearLabel').textContent = '2025';
-        this.updateSliderProgress(1983, 2025);
-        this.updateStats();
-        this.chartManager.updateWithYearRange(this.activeCategories, this.yearRange);
-    }
+    //resetYearRange() {
+    //    this.yearRange = { start: 1983, end: 2025 };
+    //    this.startSlider.value = 1983;
+    //    this.endSlider.value = 2025;
+    //    document.getElementById('startYearLabel').textContent = '1983';
+    //    document.getElementById('endYearLabel').textContent = '2025';
+    //    this.updateSliderProgress(1983, 2025);
+    //    this.chartManager.updateWithYearRange(this.activeCategories, this.yearRange);
+    //}
 
     setupSoundControls() {
         const playBtn = document.getElementById('playAllBtn');
@@ -321,7 +278,6 @@ class PizzaIndexApp {
             item.classList.add('active');
         });
 
-        this.updateStats();
         this.chartManager.updateWithYearRange(this.activeCategories, this.yearRange);
     }
 }
